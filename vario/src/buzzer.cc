@@ -1,4 +1,8 @@
 #include "buzzer.h"
+uint8_t a = 0;
+uint32_t buzzer_next_iteration = 1000;
+
+#include "songs.h"
 
 extern float climb;
 extern Usart usart;
@@ -10,6 +14,7 @@ Timer timer_buzzer_delay;
 volatile uint16_t next_tone = 0;
 volatile uint16_t next_length = 0;
 volatile uint16_t next_pause = 0;
+uint16_t inter_pause = 100;
 
 volatile bool delay_on = false;
 uint8_t buzzer_mode = 0;
@@ -89,12 +94,15 @@ void buzzer_set_tone(uint16_t tone)
 		next_tone = 31250 / tone;
 
 		//buzzer is running continuously update freq now
-		if (delay_on == false)
+		if (delay_on == false){
 			tone_set(next_tone);
+		}
 
 		//fluid update is enabled
-		if (cfg.fluid_update and buzzer_period == PERIOD_SOUND)
+		if (cfg.fluid_update and buzzer_period == PERIOD_SOUND){
+
 			tone_set(next_tone);
+		}
 
 		timer_buzzer_tone.Start(); //if it is not running
 	}
@@ -108,7 +116,8 @@ ISR(timerC5_overflow_interrupt)
 
 	if (buzzer_period == PERIOD_SOUND)
 	//pause start
-	{
+	{	LEDR_OFF;
+		LEDG_ON;
 		timer_buzzer_tone.DisableOutputs(timer_A | timer_B | timer_C | timer_D);
 
 		if (next_pause == 0)
@@ -125,7 +134,8 @@ ISR(timerC5_overflow_interrupt)
 	}
 	else
 	//sound start
-	{
+	{	LEDR_ON;
+		LEDG_OFF;
 		if (next_tone > 0)
 		{
 			tone_set(next_tone);
@@ -212,8 +222,6 @@ void buzzer_init()
 extern uint8_t buzzer_override;
 extern uint16_t buzzer_override_tone;
 
-uint8_t a = 0;
-uint32_t buzzer_next_iteration = 1000;
 
 float test_climb = 0;
 
