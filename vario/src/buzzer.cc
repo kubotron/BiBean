@@ -1,6 +1,4 @@
 #include "buzzer.h"
-extern configuration cfg;
-Timer timer_buzzer_tone;
 #include "buzzer_utils.h"
 
 uint8_t a = 0;
@@ -10,31 +8,16 @@ uint32_t buzzer_next_iteration = 1000;
 extern float climb;
 extern Usart usart;
 
-
+Timer timer_buzzer_tone;
 Timer timer_buzzer_delay;
 
 volatile uint16_t next_tone = 0;
 volatile uint16_t next_length = 0;
 volatile uint16_t next_pause = 0;
-uint16_t inter_pause = 100;
+uint16_t inter_pause = 50;
 
 volatile bool delay_on = false;
-uint8_t buzzer_mode = 0;
-
-
-
-void tone_set(uint16_t tone)
-{
-	//set tone
-	timer_buzzer_tone.SetCompare(timer_A | timer_B | timer_C | timer_D, tone / 2);
-	timer_buzzer_tone.SetTop(tone);
-	//enable output & set volume
-	buzzer_set_volume();
-
-	//if period is smaller than CNT restart timer -> overflow protection
-	if (timer_buzzer_tone.GetValue() > tone)
-		timer_buzzer_tone.SetValue(0);
-}
+//uint8_t buzzer_mode = 0;
 
 #define PERIOD_SOUND		0
 #define PERIOD_PAUSE		1
@@ -161,30 +144,6 @@ void buzzer_set_delay(uint16_t length, uint16_t pause)
 	}
 }
 
-
-
-void buzzer_init()
-{
-	GpioSetInvert(portc6, ON);
-	GpioSetInvert(portc7, ON);
-
-#ifdef FAST_CLOCK
-	timer_buzzer_tone.Init(timerC4, timer_div1024);
-	timer_buzzer_delay.Init(timerC5, timer_div1024);
-#endif
-
-#ifdef SLOW_CLOCK
-	timer_buzzer_tone.Init(timerC4, timer_div64);
-	timer_buzzer_delay.Init(timerC5, timer_div64);
-#endif
-
-	timer_buzzer_tone.SetMode(timer_pwm);
-	TCC4.CTRLC = 0b00001100;
-	timer_buzzer_tone.EnableOutputs(timer_A | timer_B | timer_C | timer_D);
-
-	timer_buzzer_delay.EnableInterrupts(timer_overflow);
-}
-
 extern uint8_t buzzer_override;
 extern uint16_t buzzer_override_tone;
 
@@ -195,36 +154,6 @@ bool climb_override = false;
 uint16_t buzzer_tone;
 uint16_t buzzer_delay;
 
-
-//linear aproximation between two points
-uint16_t get_near(float vario, uint16_t * src)
-{
-	vario = vario * 2; //1 point for 50cm
-	float findex = floor(vario) +  20;
-	float m = vario - floor(vario);
-
-	uint8_t index = findex;
-
-	if (findex > 39)
-	{
-		index = 39;
-		m = 1.0;
-	}
-
-	if (findex < 0)
-	{
-		index = 0;
-		m = 0.0;
-	}
-
-	m = round(m * 10) / 10.0;
-
-	int16_t start = src[index];
-
-	start = start + (float)((int16_t)src[index + 1] - start) * m;
-
-	return start;
-}
 
 uint16_t old_freq = 0;
 uint16_t old_leng = 0;

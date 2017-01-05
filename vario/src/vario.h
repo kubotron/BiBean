@@ -17,6 +17,7 @@
 #include "common.h"
 #include "bui.h"
 #include "buzzer.h"
+#include "buzzer_utils.h"
 #include "pc.h"
 #include "ms5611.h"
 #include "bmp180.h"
