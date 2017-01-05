@@ -1,14 +1,16 @@
 #include "buzzer.h"
+extern configuration cfg;
+Timer timer_buzzer_tone;
+#include "buzzer_utils.h"
+
 uint8_t a = 0;
 uint32_t buzzer_next_iteration = 1000;
-
 #include "songs.h"
 
 extern float climb;
 extern Usart usart;
-extern configuration cfg;
 
-Timer timer_buzzer_tone;
+
 Timer timer_buzzer_delay;
 
 volatile uint16_t next_tone = 0;
@@ -19,42 +21,7 @@ uint16_t inter_pause = 100;
 volatile bool delay_on = false;
 uint8_t buzzer_mode = 0;
 
-//set buzzer volume
-void buzzer_set_volume()
-{
-	switch(cfg.buzzer_volume)
-	{
-	case(0): //off
-		//DisableOutputs(timer_A | timer_B | timer_C | timer_D)
-		PORTC.DIRCLR = 0b11110000;
-	break;
-	case(1): //4k7 + 1k
-		timer_buzzer_tone.EnableOutputs(timer_A | timer_D);
-		//DisableOutputs(timer_B | timer_C)
-		PORTC.DIRCLR = 0b01100000;
-		PORTC.DIRSET = 0b10010000;
-	break;
-	case(2): //4k7
-		timer_buzzer_tone.EnableOutputs(timer_A | timer_C);
-		//DisableOutputs(timer_B | timer_D)
-		PORTC.DIRCLR = 0b10100000;
-		PORTC.DIRSET = 0b01010000;
-	break;
-	case(3): //1k
-		timer_buzzer_tone.EnableOutputs(timer_B | timer_D);
-		//DisableOutputs(timer_A | timer_C)
-		PORTC.DIRCLR = 0b01010000;
-		PORTC.DIRSET = 0b10100000;
-	break;
-	case(4): //0k
-		timer_buzzer_tone.EnableOutputs(timer_B | timer_C);
-		//DisableOutputs(timer_A | timer_D)
-		PORTC.DIRCLR = 0b10010000;
-		PORTC.DIRSET = 0b01100000;
-	break;
-	}
 
-}
 
 void tone_set(uint16_t tone)
 {
@@ -107,7 +74,6 @@ void buzzer_set_tone(uint16_t tone)
 		timer_buzzer_tone.Start(); //if it is not running
 	}
 }
-
 
 
 ISR(timerC5_overflow_interrupt)
@@ -269,55 +235,59 @@ extern float ram_lift_begin;
 
 uint8_t fluid_lift_counter = 0;
 
-void buzzer_step()
-{	mario_step();
-//	//generate sound for menu
-//	if (buzzer_override)
-//	{
-//		timer_buzzer_delay.Stop();
-//		buzzer_set_delay(0, 0);
-//
-//		delay_on = false;
-//		buzzer_set_tone(buzzer_override_tone);
-//		return;
-//	}
-//
-//	uint16_t freq;
-//	uint16_t length;
-//	uint16_t pause;
-//
-////	For demonstration
-////	led handling in bui_task need to be commented out
-////	if (climb > 0)
-////		{LEDG_ON;}
-////	else
-////		{LEDG_OFF;}
-////
-////	if (climb < 0)
-////		{LEDR_ON;}
-////	else
-////		{LEDR_OFF;}
-//
-//	//GET fresh values from table
-//	// - climb is float in m/s
-//	if (climb >= ram_lift_begin || climb <= (ram_sink_begin))
-//	{
-//		//get frequency from the table
-//		freq = get_near(climb, prof.buzzer_freq);
-//		length = get_near(climb, prof.buzzer_length);
-//		pause = get_near(climb, prof.buzzer_pause);
-//	}
+void double_tone_step(){
+
+}
+
+void buzzer_step(){
+//	mario_step();
+	//generate sound for menu
+	if (buzzer_override)
+	{
+		timer_buzzer_delay.Stop();
+		buzzer_set_delay(0, 0);
+
+		delay_on = false;
+		buzzer_set_tone(buzzer_override_tone);
+		return;
+	}
+
+	uint16_t freq;
+	uint16_t length;
+	uint16_t pause;
+
+//	For demonstration
+//	led handling in bui_task need to be commented out
+//	if (climb > 0)
+//		{LEDG_ON;}
 //	else
-//	//no threshold was exceeded -> silent
-//	{
-//		freq = 0;
-//		length = 0;
-//		pause = 0;
-//	}
+//		{LEDG_OFF;}
 //
-//	//update buzzer with new settings
-//	buzzer_set_tone(freq);
-//	buzzer_set_delay(length, pause);
+//	if (climb < 0)
+//		{LEDR_ON;}
+//	else
+//		{LEDR_OFF;}
+
+	//GET fresh values from table
+	// - climb is float in m/s
+	if (climb >= ram_lift_begin || climb <= (ram_sink_begin))
+	{
+		//get frequency from the table
+		freq = get_near(climb, prof.buzzer_freq);
+		length = get_near(climb, prof.buzzer_length);
+		pause = get_near(climb, prof.buzzer_pause);
+	}
+	else
+	//no threshold was exceeded -> silent
+	{
+		freq = 0;
+		length = 0;
+		pause = 0;
+	}
+
+	//update buzzer with new settings
+	buzzer_set_tone(freq);
+	buzzer_set_delay(length, pause);
 
 }
 
