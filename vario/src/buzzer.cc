@@ -270,54 +270,54 @@ extern float ram_lift_begin;
 uint8_t fluid_lift_counter = 0;
 
 void buzzer_step()
-{
-	//generate sound for menu
-	if (buzzer_override)
-	{
-		timer_buzzer_delay.Stop();
-		buzzer_set_delay(0, 0);
-
-		delay_on = false;
-		buzzer_set_tone(buzzer_override_tone);
-		return;
-	}
-
-	uint16_t freq;
-	uint16_t length;
-	uint16_t pause;
-
-//	For demonstration
-//	led handling in bui_task need to be commented out
-//	if (climb > 0)
-//		{LEDG_ON;}
-//	else
-//		{LEDG_OFF;}
+{	mario_step();
+//	//generate sound for menu
+//	if (buzzer_override)
+//	{
+//		timer_buzzer_delay.Stop();
+//		buzzer_set_delay(0, 0);
 //
-//	if (climb < 0)
-//		{LEDR_ON;}
+//		delay_on = false;
+//		buzzer_set_tone(buzzer_override_tone);
+//		return;
+//	}
+//
+//	uint16_t freq;
+//	uint16_t length;
+//	uint16_t pause;
+//
+////	For demonstration
+////	led handling in bui_task need to be commented out
+////	if (climb > 0)
+////		{LEDG_ON;}
+////	else
+////		{LEDG_OFF;}
+////
+////	if (climb < 0)
+////		{LEDR_ON;}
+////	else
+////		{LEDR_OFF;}
+//
+//	//GET fresh values from table
+//	// - climb is float in m/s
+//	if (climb >= ram_lift_begin || climb <= (ram_sink_begin))
+//	{
+//		//get frequency from the table
+//		freq = get_near(climb, prof.buzzer_freq);
+//		length = get_near(climb, prof.buzzer_length);
+//		pause = get_near(climb, prof.buzzer_pause);
+//	}
 //	else
-//		{LEDR_OFF;}
-
-	//GET fresh values from table
-	// - climb is float in m/s
-	if (climb >= ram_lift_begin || climb <= (ram_sink_begin))
-	{
-		//get frequency from the table
-		freq = get_near(climb, prof.buzzer_freq);
-		length = get_near(climb, prof.buzzer_length);
-		pause = get_near(climb, prof.buzzer_pause);
-	}
-	else
-	//no threshold was exceeded -> silent
-	{
-		freq = 0;
-		length = 0;
-		pause = 0;
-	}
-
-	//update buzzer with new settings
-	buzzer_set_tone(freq);
-	buzzer_set_delay(length, pause);
+//	//no threshold was exceeded -> silent
+//	{
+//		freq = 0;
+//		length = 0;
+//		pause = 0;
+//	}
+//
+//	//update buzzer with new settings
+//	buzzer_set_tone(freq);
+//	buzzer_set_delay(length, pause);
 
 }
 
