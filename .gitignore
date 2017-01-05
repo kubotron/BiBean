@@ -11,3 +11,5 @@ Release/*
 *.d
 
 .metadata/
+vario/src/build_number.txt
+vario/src/build_number.h
