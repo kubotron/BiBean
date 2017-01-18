@@ -14,13 +14,17 @@ Timer timer_buzzer_delay;
 volatile uint16_t next_tone = 0;
 volatile uint16_t next_length = 0;
 volatile uint16_t next_pause = 0;
-uint16_t inter_pause = 50;
+const uint16_t bibip_gap = 70 * 31;
+const uint16_t bibip_sound = 300 * 31;
 
 volatile bool delay_on = false;
 //uint8_t buzzer_mode = 0;
 
 #define PERIOD_SOUND		0
-#define PERIOD_PAUSE		1
+#define BIBIP_GAP	        1
+#define BIBIP_SOUND		    2
+#define PERIOD_PAUSE		3
+
 
 volatile uint8_t buzzer_period = PERIOD_SOUND;
 
@@ -50,7 +54,6 @@ void buzzer_set_tone(uint16_t tone)
 
 		//fluid update is enabled
 		if (cfg.fluid_update and buzzer_period == PERIOD_SOUND){
-
 			tone_set(next_tone);
 		}
 
@@ -65,8 +68,7 @@ ISR(timerC5_overflow_interrupt)
 
 	if (buzzer_period == PERIOD_SOUND)
 	//pause start
-	{	LEDR_OFF;
-		LEDG_ON;
+	{	
 		timer_buzzer_tone.DisableOutputs(timer_A | timer_B | timer_C | timer_D);
 
 		if (next_pause == 0)
@@ -81,10 +83,9 @@ ISR(timerC5_overflow_interrupt)
 
 		buzzer_period = PERIOD_PAUSE;
 	}
-	else
+	else if (buzzer_period == PERIOD_PAUSE)
 	//sound start
-	{	LEDR_ON;
-		LEDG_OFF;
+	{	
 		if (next_tone > 0)
 		{
 			tone_set(next_tone);
@@ -101,7 +102,30 @@ ISR(timerC5_overflow_interrupt)
 
 		timer_buzzer_delay.SetTop(next_length);
 
+		buzzer_period = BIBIP_GAP;
+		return;
+	}
+	else if (buzzer_period == BIBIP_GAP)
+	//gap start
+	{
+		timer_buzzer_tone.DisableOutputs(timer_A | timer_B | timer_C | timer_D);
+
+		timer_buzzer_delay.SetTop(bibip_gap);
+		buzzer_period = BIBIP_SOUND;
+		return;
+	}
+	else if (buzzer_period == BIBIP_SOUND)
+	//bibip start
+	{
+		if (next_tone > 0)
+		{
+			tone_set(next_tone);
+			buzzer_set_volume();
+		}
+
+		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = PERIOD_SOUND;
+		return;
 	}
 }
 
@@ -148,9 +172,9 @@ extern uint8_t buzzer_override;
 extern uint16_t buzzer_override_tone;
 
 
-float test_climb = 0;
+//float test_climb = 2;
 
-bool climb_override = false;
+//bool climb_override = false;
 uint16_t buzzer_tone;
 uint16_t buzzer_delay;
 
@@ -169,6 +193,7 @@ void double_tone_step(){
 }
 
 void buzzer_step(){
+//	climb = test_climb;
 //	mario_step();
 	//generate sound for menu
 	if (buzzer_override)
@@ -187,15 +212,14 @@ void buzzer_step(){
 
 //	For demonstration
 //	led handling in bui_task need to be commented out
-//	if (climb > 0)
-//		{LEDG_ON;}
-//	else
-//		{LEDG_OFF;}
-//
-//	if (climb < 0)
-//		{LEDR_ON;}
-//	else
-//		{LEDR_OFF;}
+//	if (buzzer_period == PERIOD_SOUND)
+//		{LEDG_ON;LEDG_OFF;}
+//	if (buzzer_period == PERIOD_PAUSE)
+//		{LEDR_ON;LEDR_OFF;}
+//	if (buzzer_period == BIBIP_GAP)
+//		{LEDR_ON;LEDR_ON;}
+//	if (buzzer_period == BIBIP_SOUND)
+//		{LEDR_OFF;LEDR_OFF;}
 
 	//GET fresh values from table
 	// - climb is float in m/s
