@@ -3,7 +3,8 @@
 
 uint8_t a = 0;
 uint32_t buzzer_next_iteration = 1000;
-#include "songs.h"
+//#include "songs.h"
+#include "bibip.h"
 
 extern float climb;
 extern Usart usart;
@@ -24,7 +25,6 @@ volatile bool delay_on = false;
 #define BIBIP_GAP	        1
 #define BIBIP_SOUND		    2
 #define PERIOD_PAUSE		3
-
 
 volatile uint8_t buzzer_period = PERIOD_SOUND;
 
@@ -171,30 +171,59 @@ void buzzer_set_delay(uint16_t length, uint16_t pause)
 extern uint8_t buzzer_override;
 extern uint16_t buzzer_override_tone;
 
-
-//float test_climb = 2;
-
 //bool climb_override = false;
 uint16_t buzzer_tone;
 uint16_t buzzer_delay;
-
 
 uint16_t old_freq = 0;
 uint16_t old_leng = 0;
 uint16_t old_paus = 0;
 
+
+//uint16_t blik = 0;
+
 extern float ram_sink_begin;
 extern float ram_lift_begin;
 
+#define TEST_SEQUENCE true
+#define SWITCH_STEP 50
+#define SWITCH_OFF 0
+#define SWITCH_ON  1
+
+#define TEST_CLIMB_FROM -1.4
+#define TEST_CLIMB_TO 1.4
+
+float test_climb = -1.2;
+uint16_t test_step = 0;
+uint8_t led_switch = SWITCH_OFF;
 uint8_t fluid_lift_counter = 0;
 
-void double_tone_step(){
-
-}
-
 void buzzer_step(){
-//	climb = test_climb;
-//	mario_step();
+
+	if (TEST_SEQUENCE){
+		if (led_switch == SWITCH_OFF){
+			LEDG_ON;LEDR_OFF;
+		} else {
+			LEDG_OFF;LEDR_ON;
+		}
+
+		test_step++;
+		if (test_step > SWITCH_STEP){
+			test_step = 0;
+			if (led_switch == SWITCH_OFF){
+				led_switch = SWITCH_ON;
+			} else {
+				led_switch = SWITCH_OFF;
+			}
+			test_climb = test_climb + 0.1;
+		}
+
+		if (climb > TEST_CLIMB_TO){
+			climb = TEST_CLIMB_FROM;
+		}
+		climb = test_climb;
+	}
+
 	//generate sound for menu
 	if (buzzer_override)
 	{
@@ -209,17 +238,6 @@ void buzzer_step(){
 	uint16_t freq;
 	uint16_t length;
 	uint16_t pause;
-
-//	For demonstration
-//	led handling in bui_task need to be commented out
-//	if (buzzer_period == PERIOD_SOUND)
-//		{LEDG_ON;LEDG_OFF;}
-//	if (buzzer_period == PERIOD_PAUSE)
-//		{LEDR_ON;LEDR_OFF;}
-//	if (buzzer_period == BIBIP_GAP)
-//		{LEDR_ON;LEDR_ON;}
-//	if (buzzer_period == BIBIP_SOUND)
-//		{LEDR_OFF;LEDR_OFF;}
 
 	//GET fresh values from table
 	// - climb is float in m/s
