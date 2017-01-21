@@ -350,8 +350,8 @@ void led_task()
 	switch (led_mode)
 	{
 		case(LED_MODE_IDLE):
-//			LEDG_OFF
-//			LEDR_OFF
+			LEDG_OFF
+			LEDR_OFF
 		break;
 
 		case(LED_MODE_BOTH):

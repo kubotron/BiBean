@@ -201,20 +201,20 @@ uint8_t fluid_lift_counter = 0;
 void buzzer_step(){
 
 	if (TEST_SEQUENCE){
-		if (led_switch == SWITCH_OFF){
-			LEDG_ON;LEDR_OFF;
-		} else {
-			LEDG_OFF;LEDR_ON;
-		}
+//		if (led_switch == SWITCH_OFF){
+//			LEDG_ON;LEDR_OFF;
+//		} else {
+//			LEDG_OFF;LEDR_ON;
+//		}
 
 		test_step++;
 		if (test_step > SWITCH_STEP){
 			test_step = 0;
-			if (led_switch == SWITCH_OFF){
-				led_switch = SWITCH_ON;
-			} else {
-				led_switch = SWITCH_OFF;
-			}
+//			if (led_switch == SWITCH_OFF){
+//				led_switch = SWITCH_ON;
+//			} else {
+//				led_switch = SWITCH_OFF;
+//			}
 			test_climb = test_climb + 0.1;
 			climb = test_climb;
 			printf("test_climb: %f\n", climb);
