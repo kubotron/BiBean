@@ -28,6 +28,7 @@ CreateStdOut(usart_out, usart.Write);
 void pc_init()
 {
 	bool pc_go_to_cfg = false;
+	cfg.serial_output = CFG_SERIAL_OUTPUT_DEBUG;
 
 	SetStdIO(usart_in, usart_out);
 
@@ -78,6 +79,6 @@ void pc_init()
 //this is for production test only
 void pc_step()
 {
-	if (cfg.serial_output == CFG_SERIAL_OUTPUT_DEBUG)
-		printf("%0.2f;%0.2f;%0.3f;%0.3f;\n", raw_pressure, pressure, altitude0, climb);
+	// if (cfg.serial_output == CFG_SERIAL_OUTPUT_DEBUG)
+		// printf("%0.2f;%0.2f;%0.3f;%0.3f;\n", raw_pressure, pressure, altitude0, climb);
 }

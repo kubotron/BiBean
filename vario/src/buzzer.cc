@@ -216,12 +216,14 @@ void buzzer_step(){
 				led_switch = SWITCH_OFF;
 			}
 			test_climb = test_climb + 0.1;
+			climb = test_climb;
+			printf("test_climb: %f\n", climb);
 		}
 
 		if (climb > TEST_CLIMB_TO){
 			climb = TEST_CLIMB_FROM;
+			printf("WRAPAROUND\n");
 		}
-		climb = test_climb;
 	}
 
 	//generate sound for menu
