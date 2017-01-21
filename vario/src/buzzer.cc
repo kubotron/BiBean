@@ -185,7 +185,7 @@ uint16_t old_paus = 0;
 extern float ram_sink_begin;
 extern float ram_lift_begin;
 
-#define TEST_SEQUENCE true
+//#define TEST_SEQUENCE true
 #define SWITCH_STEP 50
 #define SWITCH_OFF 0
 #define SWITCH_ON  1

@@ -7,6 +7,7 @@ extern Timer timer_buzzer_delay;
 //set buzzer volume
 void buzzer_set_volume()
 {
+//	cfg.buzzer_volume = 0;
 	switch(cfg.buzzer_volume)
 	{
 	case(0): //off
