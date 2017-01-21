@@ -100,7 +100,7 @@ ISR(timerC5_overflow_interrupt)
 			return;
 		}
 
-		timer_buzzer_delay.SetTop(next_length);
+		timer_buzzer_delay.SetTop(bibip_sound);
 
 		buzzer_period = BIBIP_GAP;
 		return;
@@ -241,14 +241,23 @@ void buzzer_step(){
 
 	//GET fresh values from table
 	// - climb is float in m/s
-	if (climb >= ram_lift_begin || climb <= (ram_sink_begin))
+	if (climb >= ram_lift_begin || climb <= (ram_sink_begin) || TEST_SEQUENCE)
 	{
 		//get frequency from the table
+		
 		freq = get_near(climb, prof.buzzer_freq);
 		length = get_near(climb, prof.buzzer_length);
 		pause = get_near(climb, prof.buzzer_pause);
-	}
-	else
+
+	} else if (TEST_SEQUENCE){
+		if (buzzer_period == PERIOD_SOUND){
+			freq = get_near(climb, prof.buzzer_freq);
+			length = get_near(climb, prof.buzzer_length);
+			pause = get_near(climb, prof.buzzer_pause);
+		} else if (buzzer_period == BIBIP_SOUND){
+			freq =440;
+		}
+	} else
 	//no threshold was exceeded -> silent
 	{
 		freq = 0;
