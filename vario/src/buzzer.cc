@@ -200,7 +200,8 @@ uint8_t fluid_lift_counter = 0;
 
 void buzzer_step(){
 
-	if (TEST_SEQUENCE){
+	#ifdef TEST_SEQUENCE
+
 //		if (led_switch == SWITCH_OFF){
 //			LEDG_ON;LEDR_OFF;
 //		} else {
@@ -224,7 +225,7 @@ void buzzer_step(){
 			climb = TEST_CLIMB_FROM;
 			printf("WRAPAROUND\n");
 		}
-	}
+	#endif
 
 	//generate sound for menu
 	if (buzzer_override)
@@ -243,7 +244,7 @@ void buzzer_step(){
 
 	//GET fresh values from table
 	// - climb is float in m/s
-	if (climb >= ram_lift_begin || climb <= (ram_sink_begin) || TEST_SEQUENCE)
+	if (climb >= ram_lift_begin || climb <= (ram_sink_begin))
 	{
 		//get frequency from the table
 		
@@ -251,7 +252,16 @@ void buzzer_step(){
 		length = get_near(climb, prof.buzzer_length);
 		pause = get_near(climb, prof.buzzer_pause);
 
-	} else if (TEST_SEQUENCE){
+	}
+	else
+	//no threshold was exceeded -> silent
+	{
+		freq = 0;
+		length = 0;
+		pause = 0;
+	}
+
+	#ifdef TEST_SEQUENCE
 		if (buzzer_period == PERIOD_SOUND){
 			freq = get_near(climb, prof.buzzer_freq);
 			length = get_near(climb, prof.buzzer_length);
@@ -259,13 +269,7 @@ void buzzer_step(){
 		} else if (buzzer_period == BIBIP_SOUND){
 			freq =440;
 		}
-	} else
-	//no threshold was exceeded -> silent
-	{
-		freq = 0;
-		length = 0;
-		pause = 0;
-	}
+	#endif
 
 	//update buzzer with new settings
 	buzzer_set_tone(freq);
