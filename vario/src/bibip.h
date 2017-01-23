@@ -17,4 +17,14 @@
 #define BIBIP_11 990
 #define BIBIP_12 1114
 
+#define BIBIP_S 300 * 31
+#define BIBIP_L 900 * 31
+#define BIBIP_M 600 * 31
+
+extern uint16_t * bibip_freq1;   
+extern uint16_t * bibip_freq2;   
+extern uint16_t * bibip_pause;   
+
+void bibip_init();
+
 #endif /* BIBIP_H_ */
