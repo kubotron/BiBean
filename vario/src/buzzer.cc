@@ -33,7 +33,7 @@ uint16_t  * bibip_pause;
 
 volatile uint8_t buzzer_period = PERIOD_SOUND;
 
-#define TEST_SEQUENCE
+//#define TEST_SEQUENCE
 
 #ifdef TEST_SEQUENCE
 	extern Usart usart;
