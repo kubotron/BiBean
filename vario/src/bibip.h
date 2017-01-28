@@ -17,9 +17,9 @@
 #define BIBIP_11 990
 #define BIBIP_12 1114
 
-#define BIBIP_S 300 * 31
-#define BIBIP_L 900 * 31
-#define BIBIP_M 600 * 31
+#define BIBIP_SHORT 400 * 31
+#define BIBIP_LONG 1200 * 31
+#define BIBIP_MED 800 * 31
 
 extern uint16_t * bibip_freq1;   
 extern uint16_t * bibip_freq2;   

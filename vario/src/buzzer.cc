@@ -1,10 +1,27 @@
 #include "buzzer.h"
 #include "buzzer_utils.h"
+#include "bibip.h"
 
 //uint8_t a = 0;
 //uint32_t buzzer_next_iteration = 1000;
 //#include "songs.h"
-#include "bibip.h"
+
+//#define TEST_SEQUENCE
+
+#ifdef TEST_SEQUENCE
+	extern Usart usart;
+	#define SWITCH_STEP 200
+	#define SWITCH_OFF 0
+	#define SWITCH_ON  1
+
+	#define TEST_CLIMB_FROM -3.5
+	#define TEST_CLIMB_TO 3.0
+
+	volatile float test_climb = TEST_CLIMB_FROM;
+
+	uint16_t test_step = 0;
+	uint8_t led_switch = SWITCH_OFF;
+#endif
 
 extern float climb;
 
@@ -16,11 +33,10 @@ volatile uint16_t next_bibip_freq2 = 0;
 volatile uint16_t next_bibip_length = 0;
 volatile uint16_t next_bibip_pause = 0;
 
-const uint16_t bibip_gap = 70 * 31;
-const uint16_t bibip_sound = 300 * 31;
+const uint16_t bibip_gap = 40 * 31;
+const uint16_t bibip_sound = 250 * 31;
 
 volatile bool delay_on = false;
-//uint8_t buzzer_mode = 0;
 
 #define PERIOD_SOUND		0
 #define BIBIP_GAP	        1
@@ -32,24 +48,6 @@ uint16_t  * bibip_freq2;
 uint16_t  * bibip_pause;
 
 volatile uint8_t buzzer_period = PERIOD_SOUND;
-
-//#define TEST_SEQUENCE
-
-#ifdef TEST_SEQUENCE
-	extern Usart usart;
-	#define SWITCH_STEP 70
-	#define SWITCH_OFF 0
-	#define SWITCH_ON  1
-
-	//#define TEST_CLIMB_FROM -1.4
-	#define TEST_CLIMB_FROM -5.0
-	#define TEST_CLIMB_TO 5.0
-
-	volatile float test_climb = TEST_CLIMB_FROM;
-
-	uint16_t test_step = 0;
-	uint8_t led_switch = SWITCH_OFF;
-#endif
 
 bool bibit_initialized = false;
 
@@ -156,7 +154,7 @@ void buzzer_step(){
 //			} else {
 //				led_switch = SWITCH_OFF;
 //			}
-			test_climb = test_climb + 0.4;
+			test_climb = test_climb + 0.2;
 
 			if (test_climb > TEST_CLIMB_TO){
 				test_climb = TEST_CLIMB_FROM;
