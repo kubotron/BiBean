@@ -24,7 +24,7 @@
 
 //uart debug & timing pin
 //#define ENABLE_DEBUG_TIMING
-// #define ENABLE_DEBUG_UART
+#define ENABLE_DEBUG_UART
 
 //pinout
 #define LEDR			porta1
