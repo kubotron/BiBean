@@ -58,78 +58,77 @@ ISR(timerC5_overflow_interrupt)
 {
 	timer_buzzer_delay.ClearOverflowFlag();
 
-	printf("starting sequence %p\r\n", env_seq);
-	seq_start_env(&env_seq);
-	timer_buzzer_delay.SetTop(1000 * 31);
+//	printf("starting sequence %p\r\n", env_seq);
+//	seq_start_env(&env_seq);
+//	timer_buzzer_delay.SetTop(1000 * 31);
 
-//	if (buzzer_period == PERIOD_SOUND)
-//	//pause start
-//	{
-//		timer_buzzer_tone.DisableOutputs(timer_A | timer_B | timer_C | timer_D);
-//		#ifdef TEST_SEQUENCE
-//				climb = test_climb;
-//				printf(" \nCLIMB: %f\n", climb);
-//		#endif
-//
+	if (buzzer_period == PERIOD_SOUND)
+	//pause start
+	{
+		audio_off();
+		#ifdef TEST_SEQUENCE
+				climb = test_climb;
+				printf(" \nCLIMB: %f\n", climb);
+		#endif
+
 //		next_bibip_freq1 = get_near(climb, bibip_freq1);
 //		next_bibip_freq2 = get_near(climb, bibip_freq2);
 //		next_bibip_pause = get_near(climb, bibip_pause);
-//
-//		#ifdef TEST_SEQUENCE
-//			printf("pause: next_bibip_pause\n next_bibip_pause");
-//		#endif
-//
-//
-//		timer_buzzer_delay.SetTop(next_bibip_pause);
-//
-//		buzzer_period = PERIOD_PAUSE;
-//	}
-//	else if (buzzer_period == PERIOD_PAUSE)
-//	//sound start
-//	{
-//		#ifdef TEST_SEQUENCE
-//			printf(" *bi*");
-//			printf("freq1 %u *", next_bibip_freq1);
-//		#endif
-//
+
+		#ifdef TEST_SEQUENCE
+			printf("pause: next_bibip_pause\n next_bibip_pause");
+		#endif
+		seq_start_env(&env_seq);
+
+		timer_buzzer_delay.SetTop(next_bibip_pause);
+		buzzer_period = PERIOD_PAUSE;
+	}
+	else if (buzzer_period == PERIOD_PAUSE)
+	//sound start
+	{
+		#ifdef TEST_SEQUENCE
+			printf(" *bi*");
+			printf("freq1 %u *", next_bibip_freq1);
+		#endif
+
 //		tone_set(31250 / next_bibip_freq1);
 //		timer_buzzer_tone.Start();
-//
-//		timer_buzzer_delay.SetTop(bibip_sound);
-//
-//		buzzer_period = BIBIP_GAP;
-//		return;
-//	}
-//	else if (buzzer_period == BIBIP_GAP)
-//	//gap start
-//	{
-//		#ifdef TEST_SEQUENCE
-//			printf("--");
-//			//printf(" gap: %u ", bibip_gap);
-//			//printf("--");
-//		#endif
-//
-//		timer_buzzer_tone.DisableOutputs(timer_A | timer_B | timer_C | timer_D);
-//
-//		timer_buzzer_delay.SetTop(bibip_gap);
-//		buzzer_period = BIBIP_SOUND;
-//		return;
-//	}
-//	else if (buzzer_period == BIBIP_SOUND)
-//	//bibip start
-//	{
-//		#ifdef TEST_SEQUENCE
-//			printf("+bip+");
-//			printf(" freq2 %u", next_bibip_freq2);
-//		#endif
-//
-//		tone_set(31250 / next_bibip_freq2);
-//		timer_buzzer_tone.Start();
-//
-//		timer_buzzer_delay.SetTop(bibip_sound);
-//		buzzer_period = PERIOD_SOUND;
-//		return;
-//	}
+
+		seq_start_env(&env_seq);
+		timer_buzzer_delay.SetTop(bibip_sound);
+		buzzer_period = BIBIP_GAP;
+		return;
+	}
+	else if (buzzer_period == BIBIP_GAP)
+	//gap start
+	{
+		#ifdef TEST_SEQUENCE
+			printf("--");
+			//printf(" gap: %u ", bibip_gap);
+			//printf("--");
+		#endif
+
+		audio_off();
+
+		timer_buzzer_delay.SetTop(bibip_gap);
+		buzzer_period = BIBIP_SOUND;
+		return;
+	}
+	else if (buzzer_period == BIBIP_SOUND)
+	//bibip start
+	{
+		#ifdef TEST_SEQUENCE
+			printf("+bip+");
+			printf(" freq2 %u", next_bibip_freq2);
+		#endif
+
+		tone_set(31250 / next_bibip_freq2);
+		timer_buzzer_tone.Start();
+
+		timer_buzzer_delay.SetTop(bibip_sound);
+		buzzer_period = PERIOD_SOUND;
+		return;
+	}
 }
 
 void buzzer_step(){

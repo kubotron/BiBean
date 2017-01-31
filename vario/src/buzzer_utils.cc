@@ -120,6 +120,7 @@ void tone_set(uint16_t tone)
 }
 
 void audio_off(){
+	timer_buzzer_tone.DisableOutputs(timer_A | timer_B | timer_C | timer_D);
 	timer_buzzer_tone.Stop();
 }
 
