@@ -7,7 +7,7 @@
 //#include "songs.h"
 
 //#define TEST_SEQUENCE
-extern Usart usart;
+// extern Usart usart;
 
 #ifdef TEST_SEQUENCE
 	#define SWITCH_STEP 200

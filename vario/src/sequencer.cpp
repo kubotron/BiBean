@@ -22,7 +22,6 @@ volatile uint16_t tone2;
 void seq_start_env(const sequence_t_env * seq)
 {
     audio_off();
-    printf("STARTED %p\r\n", seq);
     seq_enabled = true;
 
     seq_len = pgm_read_byte(&seq->length);
@@ -36,7 +35,6 @@ void seq_start_env(const sequence_t_env * seq)
 
 void seq_next_tone_env()
 {
-    printf("next tone \n\r");
     uint16_t tone;
     if (seq_index < seq_len)
     {
