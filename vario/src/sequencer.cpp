@@ -30,6 +30,8 @@ void seq_start_env(const sequence_t_env * seq)
     seq_length_ptr = (const uint16_t*)pgm_read_word(&seq->length_ptr);
     seq_volume_ptr = (const uint16_t*)pgm_read_word(&seq->volume_ptr);
     seq_index = 0;   
+    
+    timer_buzzer_tone.Start();
 }
 
 void seq_next_tone_env()

@@ -88,10 +88,9 @@ void buzzer_set_envelope(uint16_t freq, uint16_t volume){
 
 	if (freq == 0 || volume == 0)
 	{
-		timer_buzzer_tone.Stop();
+		audio_off();
 		return;
 	}
-
 
 	tone = 31250 / freq;
 	timer_buzzer_tone.SetCompare(timer_A | timer_B | timer_C | timer_D, tone / 2);
@@ -103,7 +102,7 @@ void buzzer_set_envelope(uint16_t freq, uint16_t volume){
 	if (timer_buzzer_tone.GetValue() > tone)
 		timer_buzzer_tone.SetValue(0);
 
-	timer_buzzer_tone.Start();
+	//	timer_buzzer_tone.Start();
 }
 
 void tone_set(uint16_t tone)

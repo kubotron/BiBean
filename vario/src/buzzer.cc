@@ -121,9 +121,10 @@ ISR(timerC5_overflow_interrupt)
 			printf("+bip+");
 			printf(" freq2 %u", next_bibip_freq2);
 		#endif
-
-		tone_set(31250 / next_bibip_freq2);
-		timer_buzzer_tone.Start();
+		
+		seq_start_env(&env_seq);
+		// tone_set(31250 / next_bibip_freq2);
+		// timer_buzzer_tone.Start();
 
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = PERIOD_SOUND;
