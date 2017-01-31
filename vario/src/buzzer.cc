@@ -58,10 +58,6 @@ ISR(timerC5_overflow_interrupt)
 {
 	timer_buzzer_delay.ClearOverflowFlag();
 
-//	printf("starting sequence %p\r\n", env_seq);
-//	seq_start_env(&env_seq);
-//	timer_buzzer_delay.SetTop(1000 * 31);
-
 	if (buzzer_period == PERIOD_SOUND)
 	//pause start
 	{
@@ -90,7 +86,6 @@ ISR(timerC5_overflow_interrupt)
 			printf("freq1 %u *", next_bibip_freq1);
 		#endif
 
-//		seq_start_env(&env_seq);
 		 seq_start_freq(next_bibip_freq1);
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = BIBIP_GAP;
@@ -119,7 +114,6 @@ ISR(timerC5_overflow_interrupt)
 			printf(" freq2 %u", next_bibip_freq2);
 		#endif
 		
-//		seq_start_env(&env_seq);
 		 seq_start_freq(next_bibip_freq2);
 
 		timer_buzzer_delay.SetTop(bibip_sound);
