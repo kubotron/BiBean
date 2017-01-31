@@ -119,6 +119,10 @@ void tone_set(uint16_t tone)
 		timer_buzzer_tone.SetValue(0);
 }
 
+void audio_off(){
+	timer_buzzer_tone.Stop();
+}
+
 void buzzer_init()
 {
 	GpioSetInvert(portc6, ON);

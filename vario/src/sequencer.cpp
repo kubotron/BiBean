@@ -19,10 +19,9 @@ volatile uint16_t tone2;
 
 #define AUDIO_SILENT_AFTER_SEQ	250
 
-
 void seq_start_env(const sequence_t_env * seq)
 {
-//     audio_off();
+    audio_off();
     printf("STARTED %p\r\n", seq);
     seq_enabled = true;
 
@@ -64,3 +63,34 @@ void seq_next_tone_env()
 
 //audio_step @ 100Hz (called from fc meas_timer)
 #define AUDIO_STEP_MS	10
+
+void seq_loop()
+{   
+    if (!seq_enabled)
+    {
+        audio_off();
+        return;
+    }
+    if (seq_duration > AUDIO_STEP_MS)
+    {
+        seq_duration -= AUDIO_STEP_MS;
+    }
+    else
+    {
+        if (seq_index == seq_len + 1)
+        {
+            seq_enabled = false;
+            audio_off();
+        }
+        else 
+        {       
+            seq_next_tone_env();
+        }
+    }
+};
+
+void seq_step(){
+    if (seq_enabled){
+        seq_loop();
+    }
+}

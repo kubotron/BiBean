@@ -3,6 +3,7 @@
 
 #include "vario.h"
 
+void audio_off();
 void buzzer_init();
 void buzzer_set_volume();
 void tone_set(uint16_t tone);

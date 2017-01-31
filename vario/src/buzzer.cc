@@ -143,6 +143,8 @@ void buzzer_step(){
 		bibit_initialized = true;
 	}
 
+	seq_step();
+
 	#ifdef TEST_SEQUENCE
 //		if (led_switch == SWITCH_OFF){
 //			LEDG_ON;LEDR_OFF;
