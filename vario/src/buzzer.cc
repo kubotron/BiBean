@@ -71,14 +71,13 @@ ISR(timerC5_overflow_interrupt)
 				printf(" \nCLIMB: %f\n", climb);
 		#endif
 
-//		next_bibip_freq1 = get_near(climb, bibip_freq1);
-//		next_bibip_freq2 = get_near(climb, bibip_freq2);
-//		next_bibip_pause = get_near(climb, bibip_pause);
+		next_bibip_freq1 = get_near(climb, bibip_freq1);
+		next_bibip_freq2 = get_near(climb, bibip_freq2);
+		next_bibip_pause = get_near(climb, bibip_pause);
 
 		#ifdef TEST_SEQUENCE
 			printf("pause: next_bibip_pause\n next_bibip_pause");
 		#endif
-		seq_start_env(&env_seq);
 
 		timer_buzzer_delay.SetTop(next_bibip_pause);
 		buzzer_period = PERIOD_PAUSE;
@@ -91,10 +90,8 @@ ISR(timerC5_overflow_interrupt)
 			printf("freq1 %u *", next_bibip_freq1);
 		#endif
 
-//		tone_set(31250 / next_bibip_freq1);
-//		timer_buzzer_tone.Start();
-
-		seq_start_env(&env_seq);
+//		seq_start_env(&env_seq);
+		 seq_start_freq(next_bibip_freq1);
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = BIBIP_GAP;
 		return;
@@ -122,9 +119,8 @@ ISR(timerC5_overflow_interrupt)
 			printf(" freq2 %u", next_bibip_freq2);
 		#endif
 		
-		seq_start_env(&env_seq);
-		// tone_set(31250 / next_bibip_freq2);
-		// timer_buzzer_tone.Start();
+//		seq_start_env(&env_seq);
+		 seq_start_freq(next_bibip_freq2);
 
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = PERIOD_SOUND;

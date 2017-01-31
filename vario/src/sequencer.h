@@ -27,6 +27,7 @@ struct sequence_t_env
 	const uint16_t name ## _volume[] PROGMEM = volume; \
 	const sequence_t_env name PROGMEM = {name ## _tone, name ## _length, name ## _volume, sizeof(name ## _tone) / 2}; \
 
+void seq_start_freq(uint16_t freq);
 void seq_start_env(const sequence_t_env * seq);
 void seq_step();
 

@@ -13,11 +13,38 @@ volatile uint8_t seq_len;
 volatile uint16_t seq_duration;
 volatile uint16_t seq_envelope;
 volatile uint8_t seq_volume;
-
 volatile uint16_t tone1;
 volatile uint16_t tone2;
 
+
+#define CONST_ENV_LEN 20
+const uint16_t constant_duration = 1;
+volatile uint16_t const_tone;
+
+//values 0-4 only
+const uint8_t constant_envelope[CONST_ENV_LEN] = {2,4,4,3,3,3,2,2,2,2,2,2,2,1,1,1,1,1,1,1}; 
+
 #define AUDIO_SILENT_AFTER_SEQ	250
+
+void seq_start_freq(uint16_t freq)
+{
+    audio_off();
+    seq_enabled = true;
+    seq_index = 0;   
+    const_tone = freq;
+    timer_buzzer_tone.Start();
+}
+
+void seq_next_tone_freq()
+{
+    seq_duration = constant_duration;
+    seq_index++;
+    if (seq_index < CONST_ENV_LEN){
+        seq_volume = constant_envelope[seq_index];
+    }
+    buzzer_set_envelope(const_tone, seq_volume);
+}
+
 
 void seq_start_env(const sequence_t_env * seq)
 {
@@ -84,7 +111,7 @@ void seq_loop()
         }
         else 
         {       
-            seq_next_tone_env();
+            seq_next_tone_freq();
         }
     }
 };

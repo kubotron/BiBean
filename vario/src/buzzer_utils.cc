@@ -102,7 +102,6 @@ void buzzer_set_envelope(uint16_t freq, uint16_t volume){
 	if (timer_buzzer_tone.GetValue() > tone)
 		timer_buzzer_tone.SetValue(0);
 
-	//	timer_buzzer_tone.Start();
 }
 
 void tone_set(uint16_t tone)
