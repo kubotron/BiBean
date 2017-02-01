@@ -63,18 +63,31 @@ ISR(timerC5_overflow_interrupt)
 	{
 		audio_off();
 		#ifdef TEST_SEQUENCE
-				climb = test_climb;
-				printf(" \n\rCLIMB: %f\n\r", climb);
-		#endif
-
-		 next_bibip_freq1 = get_near(climb, bibip_freq1);
-		 next_bibip_freq2 = get_near(climb, bibip_freq2);
-		next_bibip_pause = get_near(climb, bibip_pause);
-
-
-		#ifdef TEST_SEQUENCE
+			climb = test_climb;
+			printf(" \n\rCLIMB: %f\n\r", climb);
 			printf("pause: next_bibip_pause: %u\n\r", next_bibip_pause);
 		#endif
+
+		if (climb > 0.5)
+		//lift
+		{
+			next_bibip_freq2 = get_near(climb, bibip_freq1);
+			next_bibip_freq1 = get_near(climb, bibip_freq2);
+		} 
+		else if (climb <= 0.5 && climb > -1.5)
+		//somewhat buoyant	
+		{
+			next_bibip_freq2 = get_near(climb, bibip_freq1);
+			next_bibip_freq1 = get_near(climb, bibip_freq1);
+		} 
+		else  
+		//sink
+		{	
+			next_bibip_freq1 = get_near(climb, bibip_freq1);
+			next_bibip_freq2 = get_near(climb, bibip_freq2);
+		}
+
+		next_bibip_pause = get_near(climb, bibip_pause);
 
 		timer_buzzer_delay.SetTop(next_bibip_pause);
 		buzzer_period = PERIOD_PAUSE;
@@ -87,7 +100,7 @@ ISR(timerC5_overflow_interrupt)
 			printf("freq1 %u\n\r *", next_bibip_freq1);
 		#endif
 
-		 seq_start_freq(next_bibip_freq1);
+		seq_start_freq(next_bibip_freq1);
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = BIBIP_GAP;
 		return;
