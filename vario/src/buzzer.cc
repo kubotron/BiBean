@@ -10,12 +10,12 @@
 // extern Usart usart;
 
 #ifdef TEST_SEQUENCE
-	#define SWITCH_STEP 200
+	#define SWITCH_STEP 100
 	#define SWITCH_OFF 0
 	#define SWITCH_ON  1
 
-	#define TEST_CLIMB_FROM -3.5
-	#define TEST_CLIMB_TO 3.0
+	#define TEST_CLIMB_FROM -10
+	#define TEST_CLIMB_TO 10
 
 	volatile float test_climb = TEST_CLIMB_FROM;
 
@@ -64,15 +64,16 @@ ISR(timerC5_overflow_interrupt)
 		audio_off();
 		#ifdef TEST_SEQUENCE
 				climb = test_climb;
-				printf(" \nCLIMB: %f\n", climb);
+				printf(" \n\rCLIMB: %f\n\r", climb);
 		#endif
 
-		next_bibip_freq1 = get_near(climb, bibip_freq1);
-		next_bibip_freq2 = get_near(climb, bibip_freq2);
+		 next_bibip_freq1 = get_near(climb, bibip_freq1);
+		 next_bibip_freq2 = get_near(climb, bibip_freq2);
 		next_bibip_pause = get_near(climb, bibip_pause);
 
+
 		#ifdef TEST_SEQUENCE
-			printf("pause: next_bibip_pause\n next_bibip_pause");
+			printf("pause: next_bibip_pause: %u\n\r", next_bibip_pause);
 		#endif
 
 		timer_buzzer_delay.SetTop(next_bibip_pause);
@@ -82,8 +83,8 @@ ISR(timerC5_overflow_interrupt)
 	//sound start
 	{
 		#ifdef TEST_SEQUENCE
-			printf(" *bi*");
-			printf("freq1 %u *", next_bibip_freq1);
+			printf(" *bi*\n\r");
+			printf("freq1 %u\n\r *", next_bibip_freq1);
 		#endif
 
 		 seq_start_freq(next_bibip_freq1);
@@ -95,7 +96,7 @@ ISR(timerC5_overflow_interrupt)
 	//gap start
 	{
 		#ifdef TEST_SEQUENCE
-			printf("--");
+			printf("--\n\r");
 			//printf(" gap: %u ", bibip_gap);
 			//printf("--");
 		#endif
@@ -110,11 +111,11 @@ ISR(timerC5_overflow_interrupt)
 	//bibip start
 	{
 		#ifdef TEST_SEQUENCE
-			printf("+bip+");
-			printf(" freq2 %u", next_bibip_freq2);
+			printf("+bip+\n\r");
+			printf(" freq2 %u\n\r", next_bibip_freq2);
 		#endif
 		
-		 seq_start_freq(next_bibip_freq2);
+		seq_start_freq(next_bibip_freq2);
 
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = PERIOD_SOUND;
@@ -150,7 +151,7 @@ void buzzer_step(){
 //			} else {
 //				led_switch = SWITCH_OFF;
 //			}
-			test_climb = test_climb + 0.2;
+			test_climb = test_climb + 0.5;
 
 			if (test_climb > TEST_CLIMB_TO){
 				test_climb = TEST_CLIMB_FROM;

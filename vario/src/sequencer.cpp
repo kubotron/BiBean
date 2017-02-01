@@ -8,12 +8,12 @@ volatile uint8_t seq_index;
 volatile uint16_t seq_duration;
 volatile uint8_t seq_volume;
 
-#define CONST_ENV_LEN 20
+#define CONST_ENV_LEN 40
 const uint16_t constant_duration = 1;
 volatile uint16_t const_tone;
 
 //values 0-4 only
-const uint8_t constant_envelope[CONST_ENV_LEN] = {2,4,4,3,3,3,2,2,2,2,2,2,2,1,1,1,1,1,1,1}; 
+const uint8_t constant_envelope[CONST_ENV_LEN] = {2,4,4,3,3,3,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,0,1}; 
 
 #define AUDIO_SILENT_AFTER_SEQ	250
 
