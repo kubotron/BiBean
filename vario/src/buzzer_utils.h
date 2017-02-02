@@ -6,6 +6,7 @@
 void audio_off();
 void buzzer_init();
 void buzzer_set_volume();
+void beep(uint16_t tone);
 void tone_set(uint16_t tone);
 void buzzer_set_envelope(uint16_t freq, uint16_t volume);
 

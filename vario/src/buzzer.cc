@@ -7,14 +7,14 @@
 //#include "songs.h"
 
 //#define TEST_SEQUENCE
-// extern Usart usart;
+//extern Usart usart;
 
 #ifdef TEST_SEQUENCE
 	#define SWITCH_STEP 100
 	#define SWITCH_OFF 0
 	#define SWITCH_ON  1
 
-	#define TEST_CLIMB_FROM -10
+	#define TEST_CLIMB_FROM -5
 	#define TEST_CLIMB_TO 10
 
 	volatile float test_climb = TEST_CLIMB_FROM;
@@ -61,6 +61,9 @@ ISR(timerC5_overflow_interrupt)
 	if (buzzer_period == PERIOD_SOUND)
 	//pause start
 	{
+
+		//printf(" \n\rCLIMB: %f\n\r", climb);
+
 		audio_off();
 		#ifdef TEST_SEQUENCE
 			climb = test_climb;
@@ -87,7 +90,7 @@ ISR(timerC5_overflow_interrupt)
 			next_bibip_freq2 = get_near(climb, bibip_freq2);
 		}
 
-		next_bibip_pause = get_near(climb, bibip_pause);
+		next_bibip_pause = 31 * get_near(climb, bibip_pause);
 
 		timer_buzzer_delay.SetTop(next_bibip_pause);
 		buzzer_period = PERIOD_PAUSE;
@@ -100,7 +103,9 @@ ISR(timerC5_overflow_interrupt)
 			printf("freq1 %u\n\r *", next_bibip_freq1);
 		#endif
 
-		seq_start_freq(next_bibip_freq1);
+//		seq_start_freq(next_bibip_freq1);
+		beep(next_bibip_freq1);
+
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = BIBIP_GAP;
 		return;
@@ -128,7 +133,8 @@ ISR(timerC5_overflow_interrupt)
 			printf(" freq2 %u\n\r", next_bibip_freq2);
 		#endif
 		
-		seq_start_freq(next_bibip_freq2);
+//		seq_start_freq(next_bibip_freq2);
+		beep(next_bibip_freq2);
 
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = PERIOD_SOUND;

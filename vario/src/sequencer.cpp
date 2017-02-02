@@ -14,6 +14,8 @@ volatile uint16_t const_tone;
 
 //values 0-4 only
 const uint8_t constant_envelope[CONST_ENV_LEN] = {2,4,4,3,3,3,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,0,1}; 
+const uint16_t freq_multiplier[CONST_ENV_LEN] = {1,1,1,2,1,2,1,1,1,1,1,1,1,2,1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}; 
+
 
 #define AUDIO_SILENT_AFTER_SEQ	250
 
@@ -33,7 +35,7 @@ void seq_next_tone_freq()
     if (seq_index < CONST_ENV_LEN){
         seq_volume = constant_envelope[seq_index];
     }
-    buzzer_set_envelope(const_tone, seq_volume);
+    buzzer_set_envelope(const_tone * freq_multiplier[seq_index], seq_volume);
 }
 
 //audio_step @ 100Hz (called from fc meas_timer)

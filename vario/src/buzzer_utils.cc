@@ -104,6 +104,27 @@ void buzzer_set_envelope(uint16_t freq, uint16_t volume){
 
 }
 
+void beep(uint16_t freq){
+
+	if (freq == 0)
+	{
+		audio_off();
+		return;
+	}
+
+	tone = 31250 / freq;
+	timer_buzzer_tone.SetCompare(timer_A | timer_B | timer_C | timer_D, tone / 2);
+	timer_buzzer_tone.SetTop(tone);
+	//enable output & set volume
+	buzzer_set_volume(2);
+
+	//if period is smaller than CNT restart timer -> overflow protection
+	if (timer_buzzer_tone.GetValue() > tone)
+		timer_buzzer_tone.SetValue(0);
+	timer_buzzer_tone.Start();
+
+}
+
 void tone_set(uint16_t tone)
 {
 	//set tone
