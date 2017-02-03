@@ -80,5 +80,6 @@ void pc_init()
 void pc_step()
 {
 	// if (cfg.serial_output == CFG_SERIAL_OUTPUT_DEBUG)
-		// printf("%0.2f;%0.2f;%0.3f;%0.3f;\n", raw_pressure, pressure, altitude0, climb);
+	//printf("raw p %0.2f; pressure %0.2f; altitude0 %0.3f; climb %0.3f; temp %0.3f\r\n;", raw_pressure, pressure, altitude0, climb, temperature);
+
 }
