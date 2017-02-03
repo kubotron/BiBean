@@ -24,6 +24,7 @@
 #endif
 
 extern float climb;
+volatile float next_climb = 0;
 
 Timer timer_buzzer_tone;
 Timer timer_buzzer_delay;
@@ -61,36 +62,29 @@ ISR(timerC5_overflow_interrupt)
 	if (buzzer_period == PERIOD_SOUND)
 	//pause start
 	{
-
-		//printf(" \n\rCLIMB: %f\n\r", climb);
-
+		printf(" \n\rCLIMB: %f\n\r", climb);
 		audio_off();
-		#ifdef TEST_SEQUENCE
-			climb = test_climb;
-			printf(" \n\rCLIMB: %f\n\r", climb);
-			printf("pause: next_bibip_pause: %u\n\r", next_bibip_pause);
-		#endif
 
-		if (climb > 0.5)
+		if (next_climb > 0.5)
 		//lift
 		{
 			next_bibip_freq2 = get_near(climb, bibip_freq1);
-			next_bibip_freq1 = get_near(climb, bibip_freq2);
+			next_bibip_freq1 = get_near(next_climb, bibip_freq2);
 		} 
-		else if (climb <= 0.5 && climb > -1.5)
+		else if (next_climb <= 0.5 && next_climb > -1.5)
 		//somewhat buoyant	
 		{
-			next_bibip_freq2 = get_near(climb, bibip_freq1);
-			next_bibip_freq1 = get_near(climb, bibip_freq1);
+			next_bibip_freq2 = get_near(next_climb, bibip_freq1);
+			next_bibip_freq1 = get_near(next_climb, bibip_freq1);
 		} 
 		else  
 		//sink
 		{	
-			next_bibip_freq1 = get_near(climb, bibip_freq1);
-			next_bibip_freq2 = get_near(climb, bibip_freq2);
+			next_bibip_freq1 = get_near(next_climb, bibip_freq1);
+			next_bibip_freq2 = get_near(next_climb, bibip_freq2);
 		}
 
-		next_bibip_pause = 31 * get_near(climb, bibip_pause);
+		next_bibip_pause = 31 * 2 * get_near(next_climb, bibip_pause);
 
 		timer_buzzer_delay.SetTop(next_bibip_pause);
 		buzzer_period = PERIOD_PAUSE;
@@ -98,13 +92,8 @@ ISR(timerC5_overflow_interrupt)
 	else if (buzzer_period == PERIOD_PAUSE)
 	//sound start
 	{
-		#ifdef TEST_SEQUENCE
-			printf(" *bi*\n\r");
-			printf("freq1 %u\n\r *", next_bibip_freq1);
-		#endif
-
-//		seq_start_freq(next_bibip_freq1);
-		beep(next_bibip_freq1);
+		seq_start_freq(next_bibip_freq1);
+		// beep(next_bibip_freq1);
 
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = BIBIP_GAP;
@@ -113,12 +102,6 @@ ISR(timerC5_overflow_interrupt)
 	else if (buzzer_period == BIBIP_GAP)
 	//gap start
 	{
-		#ifdef TEST_SEQUENCE
-			printf("--\n\r");
-			//printf(" gap: %u ", bibip_gap);
-			//printf("--");
-		#endif
-
 		audio_off();
 
 		timer_buzzer_delay.SetTop(bibip_gap);
@@ -128,13 +111,8 @@ ISR(timerC5_overflow_interrupt)
 	else if (buzzer_period == BIBIP_SOUND)
 	//bibip start
 	{
-		#ifdef TEST_SEQUENCE
-			printf("+bip+\n\r");
-			printf(" freq2 %u\n\r", next_bibip_freq2);
-		#endif
-		
-//		seq_start_freq(next_bibip_freq2);
-		beep(next_bibip_freq2);
+		seq_start_freq(next_bibip_freq2);
+//		beep(next_bibip_freq2);
 
 		timer_buzzer_delay.SetTop(bibip_sound);
 		buzzer_period = PERIOD_SOUND;
@@ -155,6 +133,9 @@ void buzzer_step(){
 
 	seq_step();
 
+	if (buzzer_period == PERIOD_SOUND){
+		next_climb = climb;
+	}
 	#ifdef TEST_SEQUENCE
 //		if (led_switch == SWITCH_OFF){
 //			LEDG_ON;LEDR_OFF;
