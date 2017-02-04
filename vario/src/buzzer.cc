@@ -21,6 +21,8 @@ const uint16_t bibip_sound = 250 * 31;
 
 uint16_t black_keys_freqs[41] = {
 4978,
+4978,
+4978,
 4435,
 3729,
 3322,
@@ -58,13 +60,13 @@ uint16_t black_keys_freqs[41] = {
 39	,
 34	,
 29	,
-26	,
-23	,
-19  };
+26	};
 
 uint16_t black_keys_shift[41] = {
 4978,
 4978,
+4978,
+4978,
 4435,
 3729,
 3322,
@@ -101,9 +103,7 @@ uint16_t black_keys_shift[41] = {
 46  ,
 39	,
 34	,
-29	,
-26	,
-23 };
+29	};
 
 uint16_t bibip_pauses[41] = {
 250,
@@ -242,7 +242,7 @@ void beep(uint16_t freq){
 	timer_buzzer_tone.SetCompare(timer_A | timer_B | timer_C | timer_D, tone / 2);
 	timer_buzzer_tone.SetTop(tone);
 	//enable output & set volume
-	buzzer_set_vol(2);
+	buzzer_set_volume();
 
 	//if period is smaller than CNT restart timer -> overflow protection
 	if (timer_buzzer_tone.GetValue() > tone)
@@ -456,7 +456,8 @@ extern float ram_lift_begin;
 
 uint8_t fluid_lift_counter = 0;
 
-bool bibit_initialized = false;
+//bool bibit_initialized = false;
+bool was_override = true;
 
 void buzzer_step()
 {
@@ -468,7 +469,13 @@ void buzzer_step()
 
 		delay_on = false;
 		buzzer_set_tone(buzzer_override_tone);
+		was_override = true;
 		return;
+	} else if (was_override) {
+		was_override = false;
+		timer_buzzer_delay.SetTop(next_bibip_pause);
+		buzzer_period = PERIOD_PAUSE;
+		timer_buzzer_delay.Start();
 	}
 
 //	For demonstration
@@ -487,14 +494,6 @@ void buzzer_step()
 	// - climb is float in m/s
 	
 		//get frequency from the table
-	if (!bibit_initialized){
-
-		timer_buzzer_delay.SetTop(next_bibip_pause);
-		buzzer_period = PERIOD_PAUSE;
-		timer_buzzer_delay.Start();
-
-		bibit_initialized = true;
-	}
 
 	 if (buzzer_period != PERIOD_SOUND){
 		 next_climb = climb;
