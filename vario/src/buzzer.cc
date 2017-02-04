@@ -316,7 +316,14 @@ ISR(timerC5_overflow_interrupt)
 		{
 //			printf(" \n\rCLIMB: %f\n\r", climb);
 			audio_off();
+			next_bibip_pause = 31 * 3 * get_near(next_climb, bibip_pauses);
 
+			timer_buzzer_delay.SetTop(next_bibip_pause);
+			buzzer_period = PERIOD_PAUSE;
+		}
+		else if (buzzer_period == PERIOD_PAUSE)
+		//sound start
+		{
 			if (next_climb > 0.5)
 			//lift
 			{
@@ -335,15 +342,6 @@ ISR(timerC5_overflow_interrupt)
 				next_bibip_freq1 = get_near(next_climb, black_keys_freqs);
 				next_bibip_freq2 = get_near(next_climb, black_keys_shift);
 			}
-
-			next_bibip_pause = 31 * 3 * get_near(next_climb, bibip_pauses);
-
-			timer_buzzer_delay.SetTop(next_bibip_pause);
-			buzzer_period = PERIOD_PAUSE;
-		}
-		else if (buzzer_period == PERIOD_PAUSE)
-		//sound start
-		{
 			beep(next_bibip_freq1);
 
 			timer_buzzer_delay.SetTop(bibip_sound);
@@ -495,7 +493,7 @@ void buzzer_step()
 	
 		//get frequency from the table
 
-	 if (buzzer_period != PERIOD_SOUND){
+	 if (buzzer_period != PERIOD_PAUSE){
 		 next_climb = climb;
 	 }
 }
