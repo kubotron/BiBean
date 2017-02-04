@@ -9,4 +9,7 @@ Release/*
 *.mk
 *.pyc
 *.d
+.metadata/*
+intelhex/*
 
+hex2bin.sh
