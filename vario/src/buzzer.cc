@@ -17,142 +17,11 @@ volatile bool delay_on = false;
 uint8_t buzzer_mode = 0;
 
 const uint16_t bibip_gap = 40 * 31;
-const uint16_t bibip_sound = 250 * 31;
-
-uint16_t black_keys_freqs[41] = {
-4978,
-4978,
-4978,
-4435,
-3729,
-3322,
-2960,
-2489,
-2217,
-1865,
-1661,
-1479,
-1244,
-1109,
-932	,
-831	,
-740	,
-622	,
-554	,
-466	,
-415	,
-370	,
-311	,
-277	,
-233	,
-207	,
-185	,
-155	,
-139	,
-116	,
-104	,
-92	,
-78	,
-69	,
-58	,
-52	,
-46  ,
-39	,
-34	,
-29	,
-26	};
-
-uint16_t black_keys_shift[41] = {
-4978,
-4978,
-4978,
-4978,
-4435,
-3729,
-3322,
-2960,
-2489,
-2217,
-1865,
-1661,
-1479,
-1244,
-1109,
-932	,
-831	,
-740	,
-622	,
-554	,
-466	,
-415	,
-370	,
-311	,
-277	,
-233	,
-207	,
-185	,
-155	,
-139	,
-116	,
-104	,
-92	,
-78	,
-69	,
-58	,
-52	,
-46  ,
-39	,
-34	,
-29	};
-
-uint16_t bibip_pauses[41] = {
-250,
-300,
-350,
-400,
-450,
-500,
-550,
-600,
-650,
-700,
-750,
-800,
-850,
-900,
-950,
-1000,
-1050,
-1100,
-1150,
-1200,
-1200,
-1200,
-1150,
-1100,
-1050,
-1000,
-950,
-900,
-850,
-800,
-750,
-700,
-650,
-600,
-550,
-500,
-450,
-400,
-350,
-300,
-250
-};
-
 
 //linear aproximation between two points
 uint16_t get_near(float vario, uint16_t * src)
 {
+	//fixme check bounds
 	vario = vario * 2; //1 point for 50cm
 	float findex = floor(vario) +  20;
 	float m = vario - floor(vario);
@@ -178,6 +47,14 @@ uint16_t get_near(float vario, uint16_t * src)
 	start = start + (float)((int16_t)src[index + 1] - start) * m;
 
 	return start;
+}
+
+uint16_t get_lower(float vario, uint16_t * src){
+	return get_near(vario - 0.5, src);
+}
+
+uint16_t get_higher(float vario, uint16_t * src){
+	return get_near(vario + 0.5, src);
 }
 
 //set buzzer volume
@@ -316,7 +193,7 @@ ISR(timerC5_overflow_interrupt)
 		{
 //			printf(" \n\rCLIMB: %f\n\r", climb);
 			audio_off();
-			next_bibip_pause = 31 * 3 * get_near(next_climb, bibip_pauses);
+			next_bibip_pause = 31 * 3 * get_near(next_climb, prof.buzzer_pause);
 
 			timer_buzzer_delay.SetTop(next_bibip_pause);
 			buzzer_period = PERIOD_PAUSE;
@@ -327,24 +204,25 @@ ISR(timerC5_overflow_interrupt)
 			if (next_climb > 0.5)
 			//lift
 			{
-				next_bibip_freq2 = get_near(climb, black_keys_freqs);
-				next_bibip_freq1 = get_near(next_climb,  black_keys_shift);
+				next_bibip_freq2 = get_near(next_climb, prof.buzzer_freq);
+				next_bibip_freq1 = get_higher(next_climb, prof.buzzer_freq);
 			}
 			else if (next_climb <= 0.5 && next_climb > -1.5)
 			//somewhat buoyant
 			{
-				next_bibip_freq2 = get_near(next_climb, black_keys_freqs);
-				next_bibip_freq1 = get_near(next_climb, black_keys_freqs);
+				next_bibip_freq2 = get_near(next_climb, prof.buzzer_freq);
+				next_bibip_freq1 = get_near(next_climb, prof.buzzer_freq);
 			}
 			else
 			//sink
 			{
-				next_bibip_freq1 = get_near(next_climb, black_keys_freqs);
-				next_bibip_freq2 = get_near(next_climb, black_keys_shift);
+				next_bibip_freq1 = get_near(next_climb, prof.buzzer_freq);
+				next_bibip_freq2 = get_lower(next_climb, prof.buzzer_freq);
 			}
+			next_bibip_length = get_near(next_climb, prof.buzzer_length);
 			beep(next_bibip_freq1);
 
-			timer_buzzer_delay.SetTop(bibip_sound);
+			timer_buzzer_delay.SetTop(next_bibip_length * 31);
 			buzzer_period = BIBIP_GAP;
 			return;
 		}
@@ -362,7 +240,7 @@ ISR(timerC5_overflow_interrupt)
 		{
 			beep(next_bibip_freq2);
 
-			timer_buzzer_delay.SetTop(bibip_sound);
+			timer_buzzer_delay.SetTop(next_bibip_length * 31);
 			buzzer_period = PERIOD_SOUND;
 			return;
 		}
