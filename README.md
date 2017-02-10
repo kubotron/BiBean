@@ -19,7 +19,7 @@ Bibip has a distinct sound sequence in each case:
 * If buoyant, Bibip makes a flat "bip-bip"
 
 The frequencies are based on black piano keys. Integration interval is 0.7sec. Play with the config, fly safe, stay tuned.
-I'm moving on to the SkyDrop platform for next steps with Bibip now :P Kubo (bibip@kubokubo.net) 
+I'm moving on to the SkyDrop platform for next steps with Bibip now. Kubo (bibip@kubokubo.net) 
 
 Troubleshooting
 ===============
