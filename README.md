@@ -1,44 +1,49 @@
-This is my experiment with the "Bibip" vario sound on SkyBean  
+My experiment with the "Bibip" vario sound on SkyBean  
 (the official SkyBean repo is https://github.com/fhorinek/SkyBean)
 
 What is Bibip?
 ==============
-Bibip is a first step on my search for more pleasant and meaningful vario sounds.
+Bibip is a relatively pleasant and meaningful vario sound. 
 
 Bibip makes **two beeps**, not just one.
 
-It has three modes: 
+When you're flying a paraglider: 
 * either you are **climbing** more than 0.5m/s
-* or you are in **sinking** air, sinking more than -1.5m/s
-* or you are somewhere in between -1.5 and 0.5 m/s. You're not really climbing, but the air is **buoyant**.
+* or you are in **sinking** air, sinking faster than -1.5m/s
+* or you are somewhere in between -1.5 and 0.5 m/s. Not really climbing, but somewhat  **buoyant**.
 
-It makes a distinct sound sequence in each mode:
+Bibip makes a distinct sound sequence in each case:
 * If you're climbing, bibip makes a rising seqence: "boo-bip"
 * If you're in sinking air, bibip sequence is falling: "bip-boo"
 * If you're buoyant, bibip makes a flat sequence: "bip-bip"
 
-The frequencies in the config are based on black piano keys. I also chose a longer integration interval in the config: 0.7sec. Bibip is never quiet at the moment (It doesn't respect the configured sink and lift threshold: I can change this if there is need). The duration of the gap in between the two beeps is not configurable right now. 
+The frequencies are based on black piano keys. Integration interval is 0.7sec. 
 
 
 Installation
 ============
-Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it ('save link as...'). Install the firmware and the config with the official [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). (select "Update Skybean Firmware", then "Load firmware from file". After you're done "Load config from file" and then "Save config to Skybean")
+Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the official [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). ("Load config from file" and then "Save config to Skybean", then select "Update Skybean Firmware", then "Load firmware from file")
 
-If you have trouble installing config on your SkyBean (like I do), you can grab a firmware where bibip sounds are hardcoded: 
-[bibip_0.1.hardcoded.ebin](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.hardcoded.ebin)
+
+Troubleshooting
+===============
+*The links to firmware and config above lead to some weird text.*
+Use "Save link as..." option to save the firmware and config files. 
+
+*I have trouble installing config on SkyBean.* 
+Bibip sounds are hardcoded in [this firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.hardcoded.ebin), you don't need config
+
+*Bibip has some shortcomings.* 
+Bibip is never quiet. It doesn't respect the configured sink and lift threshold. The duration of the gap in between the two beeps is not configurable. 
 
 
 Questions?
 ==========
-Do you have questions or suggestions? Do you know anything about sounds and music theory? Do you hate vario sounds too? Do you hate Bibip? 
-Feel free to hit me up on bibip@kubokubo.net 
+Suggestions? Do you know anything about sounds and music theory? Do you hate vario sounds too? 
+bibip@kubokubo.net 
 
-Please, do open issues if you find bugs or are missing something. However, I don't expect to work a whole lot more on SkyBean. I'm moving on to the SkyDrop platform now, it is a bit more promising for what I want to try next:
+Please, do open issues if you find bugs or are missing something or want to comment on some specific bibip feature. I'm moving on to the SkyDrop platform for next steps with Bibip.
 
-* more resolution around zero, perhaps at the expense of resolution at the extremes around -10m/s and +10m/s
-* applying a simple envelope to the sounds for more natural feeling
-* experimenting with harmonic frequencies to add some character to the sound
-
-Fly safe, have fun, tell me what you think. 
+Have fun, play with the configs, fly safe, tell me what you think. 
 Kubo
 
