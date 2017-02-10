@@ -33,7 +33,7 @@ Questions?
 Do you have questions or suggestions? Do you know anything about sounds and music theory? Do you hate vario sounds too? Do you hate Bibip? 
 Feel free to hit me up on bibip@kubokubo.net 
 
-Please, do open issues if you find bugs or are missing something. That being said, I don't expect to work a whole lot more on the Bibip for SkyBean. However, I'm moving on to the SkyDrop platform now, which is a bit more promising for what I want to try next:
+Please, do open issues if you find bugs or are missing something. However, I don't expect to work a whole lot more on SkyBean. I'm moving on to the SkyDrop platform now, it is a bit more promising for what I want to try next:
 
 * more resolution around zero, perhaps at the expense of resolution at the extremes around -10m/s and +10m/s
 * applying a simple envelope to the sounds for more natural feeling
