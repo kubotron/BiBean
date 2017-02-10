@@ -18,7 +18,11 @@ You're not really climbing, but the air is **buoyant**.
 * If you're buoyant, bibip makes a flat sequence: "bip-bip"
 
 The frequencies in the config are based on black piano keys. 
+
 I also chose a longer integration interval in the config: 0.7sec.
+
+Bibip is never quiet at the moment (It doesn't respect the configured sink and lift threshold: I can change this if there is need)
+
 
 Installation
 ============
@@ -41,6 +45,6 @@ I'm moving on to the SkyDrop platform now, which is a bit more promising for wha
 * applying a simple envelope to the sounds for more natural feeling
 * experimenting with harmonic frequencies to add some character to the sound
 
-Fly safe, have fun, write me what you think. 
+Fly safe, have fun, tell me what you think. 
 Kubo
 
