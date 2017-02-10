@@ -22,28 +22,33 @@ The frequencies are based on black piano keys. Integration interval is 0.7sec.
 
 Installation
 ============
-Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the official [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). ("Load config from file" and then "Save config to Skybean", then select "Update Skybean Firmware", then "Load firmware from file")
+Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the official [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
+
+Have fun, play with the configs, fly safe, tell me what you think. I'm moving on to the SkyDrop platform for next steps with Bibip now, stay tuned :P
+Kubo (bibip@kubokubo.net) 
 
 
 Troubleshooting
 ===============
+*To remove Bibip from your SkyBean*
+Use the chrome configurator app to install the "skybean_beta2.ebin". If you saved your old configuration to a file, you can now load it to SkyBean, too.
+
 *The links to firmware and config above lead to some weird text.*
 Use "Save link as..." option to save the firmware and config files. 
 
+*To load bibip configuration*
+Launch the SkyBean configurator app, Click on "Load config from file" and select the config file you downloaded.
+Note that you can change it in text editor or with the app. Then "Save config to SkyBean".   
+
+*To install the firmware*
+Select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.ebin firmware file you downloaded. (Don't change the file in any way)
+
 *I have trouble installing config on SkyBean.* 
-Bibip sounds are hardcoded in [this firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.hardcoded.ebin), you don't need config
+In [this firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
 
 *Bibip has some shortcomings.* 
 Bibip is never quiet. It doesn't respect the configured sink and lift threshold. The duration of the gap in between the two beeps is not configurable. 
 
+Please, do open issues if you find bugs or are missing something or just want to comment. 
 
-Questions?
-==========
-Suggestions? Do you know anything about sounds and music theory? Do you hate vario sounds too? 
-bibip@kubokubo.net 
-
-Please, do open issues if you find bugs or are missing something or want to comment on some specific bibip feature. I'm moving on to the SkyDrop platform for next steps with Bibip.
-
-Have fun, play with the configs, fly safe, tell me what you think. 
-Kubo
 
