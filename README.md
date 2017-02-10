@@ -1,10 +1,14 @@
 Experiment with the "Bibip" vario sound on [SkyBean](https://github.com/fhorinek/SkyBean)
 
+Installation
+============
+Download the Bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
+
 What is Bibip?
 ==============
 Bibip is a pleasant and meaningful vario sound. Bibip makes **two beeps**, not just one.
 
-Whenyou're flying a paraglider: 
+When you're flying a paraglider: 
 * either you are **climbing** more than 0.5m/s
 * or you are in **sinking** air, loosing height faster than -1.5m/s
 * or you are somewhere in between -1.5 and 0.5 m/s. Not really climbing, but somewhat  **buoyant**.
@@ -14,14 +18,8 @@ Bibip has a distinct sound sequence in each case:
 * In sinking air, the melody is falling: "bip-boo"
 * If buoyant, Bibip makes a flat "bip-bip"
 
-
-Installation
-============
-Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
-
 The frequencies are based on black piano keys. Integration interval is 0.7sec. Play with the config, fly safe, stay tuned.
 I'm moving on to the SkyDrop platform for next steps with Bibip now :P Kubo (bibip@kubokubo.net) 
-
 
 Troubleshooting
 ===============
@@ -44,6 +42,6 @@ In [this firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/b
 *Bibip has some shortcomings.* 
 Bibip is never quiet. It doesn't respect the configured sink and lift threshold. The duration of the gap in between the two beeps is not configurable. 
 
-Please, do open issues if you find bugs or are missing something or just want to comment. 
+Please, do open issues if you find bugs or are missing something. 
 
 
