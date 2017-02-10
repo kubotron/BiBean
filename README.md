@@ -12,12 +12,12 @@ It has three modes:
 * or you are in **sinking** air, sinking more than -1.5m/s
 * or you are somewhere in between -1.5 and 0.5 m/s. You're not really climbing, but the air is **buoyant**.
 
-It makes a different sound in each mode:
+It makes a distinct sound sequence in each mode:
 * If you're climbing, bibip makes a rising seqence: "boo-bip"
 * If you're in sinking air, bibip sequence is falling: "bip-boo"
 * If you're buoyant, bibip makes a flat sequence: "bip-bip"
 
-The frequencies in the config are based on black piano keys. I also chose a longer integration interval in the config: 0.7sec. Bibip is never quiet at the moment (It doesn't respect the configured sink and lift threshold: I can change this if there is need)
+The frequencies in the config are based on black piano keys. I also chose a longer integration interval in the config: 0.7sec. Bibip is never quiet at the moment (It doesn't respect the configured sink and lift threshold: I can change this if there is need). The duration of the gap in between the two beeps is not configurable right now. 
 
 
 Installation
