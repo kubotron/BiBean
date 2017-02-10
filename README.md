@@ -1,31 +1,26 @@
-My experiment with the "Bibip" vario sound on SkyBean  
-(the official SkyBean repo is https://github.com/fhorinek/SkyBean)
+Experiment with the "Bibip" vario sound on [SkyBean](https://github.com/fhorinek/SkyBean)
 
 What is Bibip?
 ==============
-Bibip is a relatively pleasant and meaningful vario sound. 
+Bibip is a pleasant and meaningful vario sound. Bibip makes **two beeps**, not just one.
 
-Bibip makes **two beeps**, not just one.
-
-When you're flying a paraglider: 
+Whenyou're flying a paraglider: 
 * either you are **climbing** more than 0.5m/s
-* or you are in **sinking** air, sinking faster than -1.5m/s
+* or you are in **sinking** air, loosing height faster than -1.5m/s
 * or you are somewhere in between -1.5 and 0.5 m/s. Not really climbing, but somewhat  **buoyant**.
 
-Bibip makes a distinct sound sequence in each case:
-* If you're climbing, bibip makes a rising seqence: "boo-bip"
-* If you're in sinking air, bibip sequence is falling: "bip-boo"
-* If you're buoyant, bibip makes a flat sequence: "bip-bip"
-
-The frequencies are based on black piano keys. Integration interval is 0.7sec. 
+Bibip has a distinct sound sequence in each case:
+* When climbing, it is rising: "boo-bip"
+* In sinking air, the melody is falling: "bip-boo"
+* If buoyant, Bibip makes a flat "bip-bip"
 
 
 Installation
 ============
-Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the official [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
+Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
 
-Have fun, play with the configs, fly safe, tell me what you think. I'm moving on to the SkyDrop platform for next steps with Bibip now, stay tuned :P
-Kubo (bibip@kubokubo.net) 
+The frequencies are based on black piano keys. Integration interval is 0.7sec. Play with the config, fly safe, stay tuned.
+I'm moving on to the SkyDrop platform for next steps with Bibip now :P Kubo (bibip@kubokubo.net) 
 
 
 Troubleshooting
