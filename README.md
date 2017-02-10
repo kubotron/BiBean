@@ -22,7 +22,7 @@ The frequencies in the config are based on black piano keys. I also chose a long
 
 Installation
 ============
-Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the official [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en).
+Download the bibip [firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/config-black-keys.sbc) that goes with it ('save link as...'). Install the firmware and the config with the official [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). (select "Update Skybean Firmware", then "Load firmware from file". After you're done "Load config from file" and then "Save config to Skybean")
 
 If you have trouble installing config on your SkyBean (like I do), you can grab a firmware where bibip sounds are hardcoded: 
 [bibip_0.1.hardcoded.ebin](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.hardcoded.ebin)
