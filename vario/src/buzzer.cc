@@ -1,5 +1,14 @@
 #include "buzzer.h"
-#define HARDCODED_TONES
+//#define TEST_SEQUENCE
+//#define HARDCODED_TONES
+
+
+#ifdef TEST_SEQUENCE
+	#define TEST_CLIMB_FROM -10
+	#define TEST_CLIMB_TO 10
+
+	volatile float test_climb = TEST_CLIMB_FROM;
+#endif
 
 #ifdef HARDCODED_TONES
 	#define BIBIB_LENGTH 250
@@ -201,6 +210,7 @@ ISR(timerC5_overflow_interrupt)
 	if (buzzer_period == PERIOD_SOUND)
 		//pause start
 		{
+
 			audio_off();
 			timer_buzzer_delay.SetTop(next_bibip_pause * 31);
 			buzzer_period = PERIOD_PAUSE;
@@ -208,6 +218,10 @@ ISR(timerC5_overflow_interrupt)
 		else if (buzzer_period == PERIOD_PAUSE)
 		//sound start
 		{
+			#ifdef TEST_SEQUENCE
+				test_climb = test_climb + 0.5;
+				next_climb = test_climb;
+			#endif
 			if (next_climb >= ram_lift_begin)
 			//lift
 			{
@@ -243,12 +257,9 @@ ISR(timerC5_overflow_interrupt)
 			}
 			#ifdef HARDCODED_TONES
 				next_bibip_length = BIBIB_LENGTH;
-			#else
-				next_bibip_length = get_near(next_climb, prof.buzzer_length);
-			#endif
-			#ifdef HARDCODED_TONES
 				next_bibip_pause = get_near(next_climb, bibip_pauses);
 			#else
+				next_bibip_length = get_near(next_climb, prof.buzzer_length);
 				next_bibip_pause = get_near(next_climb, prof.buzzer_pause);
 			#endif
 
@@ -262,6 +273,17 @@ ISR(timerC5_overflow_interrupt)
 		//gap start
 		{
 			audio_off();
+			#ifdef TEST_SEQUENCE
+
+				printf("\r\nBibip TEST");
+				printf("\r\nlift threshold: %0.2f m/s", ram_sink_begin);
+				printf("\r\nsink threshold: %0.2f m/s", ram_lift_begin);
+				printf("\r\nclimb: %0.2f m/s", next_climb);
+				printf("\r\ntone 1: %u Hz", next_bibip_freq1);
+				printf("\r\ntone 2: %u Hz", next_bibip_freq2);
+				printf("\r\nlength: %u ms", next_bibip_length);
+				printf("\r\npause: %u ms", next_bibip_pause);
+			#endif
 
 			timer_buzzer_delay.SetTop(bibip_gap * 31);
 			buzzer_period = BIBIP_SOUND;
@@ -348,8 +370,6 @@ extern uint16_t buzzer_override_tone;
 uint8_t a = 0;
 uint32_t buzzer_next_iteration = 1000;
 
-float test_climb = 0;
-
 bool climb_override = false;
 uint16_t buzzer_tone;
 uint16_t buzzer_delay;
@@ -401,7 +421,9 @@ void buzzer_step()
 		//get frequency from the table
 
 	 if (buzzer_period != PERIOD_PAUSE){
-		 next_climb = climb;
+		#ifndef TEST_SEQUENCE
+		    next_climb = climb;
+		#endif
 	 }
 }
 
