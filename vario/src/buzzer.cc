@@ -1,10 +1,20 @@
 #include "buzzer.h"
+#define HARDCODED_TONES
+
+#ifdef HARDCODED_TONES
+	#define BIBIB_LENGTH 250
+	uint16_t black_keys[41] = {26,29,34,39,46,52,58,69,78,92,104,116,139,155,185,207,233,277,311,370,415,466,554,622,740,831,932,1109,1244,1479,1661,1865,2217,2489,2960,3322,3729,4435,4978,4978,4978};
+	uint16_t bibip_pauses[41] =  {500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2400,2400,2300,2200,2100,2000,1900,1800,1700,1600,1500,1400,1300,1200,1100,1000,900,800,700,600,500};
+#endif
 
 extern float climb;
 volatile float next_climb = 0;
 
 extern Usart usart;
 extern configuration cfg;
+
+extern float ram_sink_begin;
+extern float ram_lift_begin;
 
 Timer timer_buzzer_tone;
 Timer timer_buzzer_delay;
@@ -191,9 +201,15 @@ ISR(timerC5_overflow_interrupt)
 	if (buzzer_period == PERIOD_SOUND)
 		//pause start
 		{
-//			printf(" \n\rCLIMB: %f\n\r", climb);
+//			printf("\n\rram_lift_begin: %f\n\r", ram_lift_begin);
+//			printf("ram_sink_begin: %f\n\r", ram_sink_begin);
+
 			audio_off();
-			next_bibip_pause = 31 * 3 * get_near(next_climb, prof.buzzer_pause);
+			#ifdef HARDCODED_TONES
+			next_bibip_pause = 31 * get_near(next_climb, bibip_pauses);
+			#else
+				next_bibip_pause = 31 * get_near(next_climb, prof.buzzer_pause);
+			#endif
 
 			timer_buzzer_delay.SetTop(next_bibip_pause);
 			buzzer_period = PERIOD_PAUSE;
@@ -201,25 +217,47 @@ ISR(timerC5_overflow_interrupt)
 		else if (buzzer_period == PERIOD_PAUSE)
 		//sound start
 		{
-			if (next_climb > 0.5)
+			if (next_climb >= ram_lift_begin)
 			//lift
 			{
-				next_bibip_freq2 = get_near(next_climb, prof.buzzer_freq);
-				next_bibip_freq1 = get_higher(next_climb, prof.buzzer_freq);
+//				printf("lift: %f\n\r", next_climb);
+				#ifdef HARDCODED_TONES
+					next_bibip_freq1 = get_near(next_climb, black_keys);
+					next_bibip_freq2 = get_higher(next_climb, black_keys);
+				#else
+					next_bibip_freq1 = get_near(next_climb, prof.buzzer_freq);
+					next_bibip_freq2 = get_higher(next_climb, prof.buzzer_freq);
+				#endif
 			}
-			else if (next_climb <= 0.5 && next_climb > -1.5)
+			else if (next_climb < ram_lift_begin && next_climb > ram_sink_begin)
 			//somewhat buoyant
 			{
-				next_bibip_freq2 = get_near(next_climb, prof.buzzer_freq);
-				next_bibip_freq1 = get_near(next_climb, prof.buzzer_freq);
+//				printf("buoyant: %f\n\r", next_climb);
+				#ifdef HARDCODED_TONES
+					next_bibip_freq2 = get_near(next_climb, black_keys);
+					next_bibip_freq1 = get_near(next_climb, black_keys);
+				#else
+					next_bibip_freq2 = get_near(next_climb, prof.buzzer_freq);
+					next_bibip_freq1 = get_near(next_climb, prof.buzzer_freq);
+				#endif
 			}
 			else
 			//sink
 			{
-				next_bibip_freq1 = get_near(next_climb, prof.buzzer_freq);
-				next_bibip_freq2 = get_lower(next_climb, prof.buzzer_freq);
+//				printf("sink: %f\n\r", next_climb);
+				#ifdef HARDCODED_TONES
+					next_bibip_freq1 = get_near(next_climb, black_keys);
+					next_bibip_freq2 = get_lower(next_climb, black_keys);
+				#else
+					next_bibip_freq1 = get_near(next_climb, prof.buzzer_freq);
+					next_bibip_freq2 = get_lower(next_climb, prof.buzzer_freq);
+				#endif
 			}
-			next_bibip_length = get_near(next_climb, prof.buzzer_length);
+			#ifdef HARDCODED_TONES
+				next_bibip_length = BIBIB_LENGTH;
+			#else
+				next_bibip_length = get_near(next_climb, prof.buzzer_length);
+			#endif
 			beep(next_bibip_freq1);
 
 			timer_buzzer_delay.SetTop(next_bibip_length * 31);
@@ -326,9 +364,6 @@ uint16_t buzzer_delay;
 uint16_t old_freq = 0;
 uint16_t old_leng = 0;
 uint16_t old_paus = 0;
-
-extern float ram_sink_begin;
-extern float ram_lift_begin;
 
 uint8_t fluid_lift_counter = 0;
 
