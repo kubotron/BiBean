@@ -33,6 +33,8 @@ Troubleshooting
 
 *I have trouble installing config on SkyBean.* In [this firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.2.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
 
+*I edited the config file and now my tones and durations are all messed up.* Don't use values greater than 2100 in the config file, the device can't handle it. (They lead to integer overflow.)
+
 *Bibip has some shortcomings.* Bibip is never quiet. The duration of the gap in between the two beeps is not configurable. 
 
 Please, do open issues if you find bugs or are missing something. 
