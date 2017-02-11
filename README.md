@@ -29,9 +29,9 @@ Troubleshooting
 
 *To load bibip configuration* launch the SkyBean configurator app, Click on "Load config from file" and select the config file you downloaded. Note that you can change it in a text editor or with the app. Then "Save config to SkyBean".   
 
-*To install the bibip firmware* select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.ebin firmware file you downloaded. (Don't change the file in any way)
+*To install the bibip firmware* select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.1ebin firmware file you downloaded. (Don't change the file in any way)
 
-*I have trouble installing config on SkyBean.* In [this firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
+*I have trouble installing config on SkyBean.* In [this firmware](https://raw.githubusercontent.com/kubotron/SkyBiBean/master/bibip_0.1.1.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
 
 *Bibip has some shortcomings.* Bibip is never quiet. It doesn't respect the configured sink and lift threshold. The duration of the gap in between the two beeps is not configurable. 
 
