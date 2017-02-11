@@ -4,7 +4,7 @@
 #ifdef HARDCODED_TONES
 	#define BIBIB_LENGTH 250
 	uint16_t black_keys[41] = {26,29,34,39,46,52,58,69,78,92,104,116,139,155,185,207,233,277,311,370,415,466,554,622,740,831,932,1109,1244,1479,1661,1865,2217,2489,2960,3322,3729,4435,4978,4978,4978};
-	uint16_t bibip_pauses[41] =  {500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200,2300,2400,2400,2400,2300,2200,2100,2000,1900,1800,1700,1600,1500,1400,1300,1200,1100,1000,900,800,700,600,500};
+	uint16_t bibip_pauses[41] =  {100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2000,2000,1900,1800,1700,1600,1500,1400,1300,1200,1100,1000,900,800,700,600,500,400,300,200,100};
 #endif
 
 extern float climb;
@@ -26,7 +26,7 @@ volatile uint16_t next_pause = 0;
 volatile bool delay_on = false;
 uint8_t buzzer_mode = 0;
 
-const uint16_t bibip_gap = 40 * 31;
+const uint16_t bibip_gap = 40;
 
 //linear aproximation between two points
 uint16_t get_near(float vario, uint16_t * src)
@@ -201,17 +201,8 @@ ISR(timerC5_overflow_interrupt)
 	if (buzzer_period == PERIOD_SOUND)
 		//pause start
 		{
-//			printf("\n\rram_lift_begin: %f\n\r", ram_lift_begin);
-//			printf("ram_sink_begin: %f\n\r", ram_sink_begin);
-
 			audio_off();
-			#ifdef HARDCODED_TONES
-			next_bibip_pause = 31 * get_near(next_climb, bibip_pauses);
-			#else
-				next_bibip_pause = 31 * get_near(next_climb, prof.buzzer_pause);
-			#endif
-
-			timer_buzzer_delay.SetTop(next_bibip_pause);
+			timer_buzzer_delay.SetTop(next_bibip_pause * 31);
 			buzzer_period = PERIOD_PAUSE;
 		}
 		else if (buzzer_period == PERIOD_PAUSE)
@@ -220,7 +211,6 @@ ISR(timerC5_overflow_interrupt)
 			if (next_climb >= ram_lift_begin)
 			//lift
 			{
-//				printf("lift: %f\n\r", next_climb);
 				#ifdef HARDCODED_TONES
 					next_bibip_freq1 = get_near(next_climb, black_keys);
 					next_bibip_freq2 = get_higher(next_climb, black_keys);
@@ -232,7 +222,6 @@ ISR(timerC5_overflow_interrupt)
 			else if (next_climb < ram_lift_begin && next_climb > ram_sink_begin)
 			//somewhat buoyant
 			{
-//				printf("buoyant: %f\n\r", next_climb);
 				#ifdef HARDCODED_TONES
 					next_bibip_freq2 = get_near(next_climb, black_keys);
 					next_bibip_freq1 = get_near(next_climb, black_keys);
@@ -244,7 +233,6 @@ ISR(timerC5_overflow_interrupt)
 			else
 			//sink
 			{
-//				printf("sink: %f\n\r", next_climb);
 				#ifdef HARDCODED_TONES
 					next_bibip_freq1 = get_near(next_climb, black_keys);
 					next_bibip_freq2 = get_lower(next_climb, black_keys);
@@ -258,6 +246,12 @@ ISR(timerC5_overflow_interrupt)
 			#else
 				next_bibip_length = get_near(next_climb, prof.buzzer_length);
 			#endif
+			#ifdef HARDCODED_TONES
+				next_bibip_pause = get_near(next_climb, bibip_pauses);
+			#else
+				next_bibip_pause = get_near(next_climb, prof.buzzer_pause);
+			#endif
+
 			beep(next_bibip_freq1);
 
 			timer_buzzer_delay.SetTop(next_bibip_length * 31);
@@ -269,7 +263,7 @@ ISR(timerC5_overflow_interrupt)
 		{
 			audio_off();
 
-			timer_buzzer_delay.SetTop(bibip_gap);
+			timer_buzzer_delay.SetTop(bibip_gap * 31);
 			buzzer_period = BIBIP_SOUND;
 			return;
 		}

@@ -2,7 +2,7 @@ Experiment with the "Bibip" vario sound on [SkyBean](https://github.com/fhorinek
 
 Installation
 ============
-Download the Bibip [firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.1.ebin) and the [config](https://raw.githubusercontent.com/kubotron/BiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
+Download the Bibip [firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.2.ebin) and the [config](https://raw.githubusercontent.com/kubotron/BiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
 
 What is Bibip?
 ==============
@@ -29,9 +29,9 @@ Troubleshooting
 
 *To load bibip configuration* launch the SkyBean configurator app, Click on "Load config from file" and select the config file you downloaded. Note that you can change it in a text editor or with the app. Then "Save config to SkyBean".   
 
-*To install the bibip firmware* select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.1.ebin firmware file you downloaded. (Don't change the file in any way)
+*To install the bibip firmware* select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.2.ebin firmware file you downloaded. (Don't change the file in any way)
 
-*I have trouble installing config on SkyBean.* In [this firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.1.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
+*I have trouble installing config on SkyBean.* In [this firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.2.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
 
 *Bibip has some shortcomings.* Bibip is never quiet. The duration of the gap in between the two beeps is not configurable. 
 
