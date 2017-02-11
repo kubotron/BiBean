@@ -14,9 +14,9 @@ When you're flying a paraglider:
 * or you are somewhere in between -1.5 and 0.5 m/s. Not really climbing, but somewhat  **buoyant**.
 
 Bibip has a distinct sound sequence in each case:
-* When climbing, it is rising: "boo-bip"
-* In sinking air, the melody is falling: "bip-boo"
-* If buoyant, Bibip makes a flat "bip-bip"
+* When climbing (above your configured climb threshold), it is rising: "boo-bip" 
+* In sinking air (under the configured sink threshold), the melody is falling: "bip-boo"
+* If buoyant (in between your lift and sink threshold), Bibip makes a flat "bip-bip"
 
 The frequencies are based on black piano keys. Integration interval is 0.7sec. Play with the config, fly safe, stay tuned.
 I'm moving on to the SkyDrop platform for next steps with Bibip now. Kubo (bibip@kubokubo.net) 
@@ -33,7 +33,7 @@ Troubleshooting
 
 *I have trouble installing config on SkyBean.* In [this firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.1.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
 
-*Bibip has some shortcomings.* Bibip is never quiet. It doesn't respect the configured sink and lift threshold. The duration of the gap in between the two beeps is not configurable. 
+*Bibip has some shortcomings.* Bibip is never quiet. The duration of the gap in between the two beeps is not configurable. 
 
 Please, do open issues if you find bugs or are missing something. 
 
