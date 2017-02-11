@@ -9,17 +9,17 @@ What is Bibip?
 Bibip is a pleasant and meaningful vario sound. Bibip makes **two beeps**, not just one.
 
 When you're flying a paraglider: 
-* either you are **climbing** more than 0.5m/s
-* or you are in **sinking** air, loosing height faster than -1.5m/s
-* or you are somewhere in between -1.5 and 0.5 m/s. Not really climbing, but somewhat  **buoyant**.
+* either you are **climbing** in rising air
+* or you are in **sinking** air, loosing height faster than usual
+* or you are somewhere in between, in air that is **buoyant** but not really climbing. 
 
 Bibip has a distinct sound sequence in each case:
 * When climbing (above your configured climb threshold), it is rising: "boo-bip" 
 * In sinking air (under the configured sink threshold), the melody is falling: "bip-boo"
 * If buoyant (in between your lift and sink threshold), Bibip makes a flat "bip-bip"
 
-The frequencies are based on black piano keys. Integration interval is 0.7sec. Play with the config, fly safe, stay tuned.
-I'm moving on to the SkyDrop platform for next steps with Bibip now. Kubo (bibip@kubokubo.net) 
+Bibip is never quiet. The frequencies are based on black piano keys. Integration interval is 0.7sec. Play with the config, fly safe, stay tuned. I'm moving on to the SkyDrop platform for next steps with Bibip now. 
+Kubo (bibip@kubokubo.net) 
 
 Troubleshooting
 ===============
@@ -31,13 +31,13 @@ Troubleshooting
 
 *To install the bibip firmware* select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.2.ebin firmware file you downloaded. (Don't change the file in any way)
 
-*I have trouble installing the firmware or the config with the chrome configurator app.* It takes multiple tries sometimes. I had the best luck when selecting the COM port manually (not plugging the skybean in and out). Open the app, and open new chrome tab afterwards. Type "chrome://inspect" into the adress bar. Select "Apps" from the menu left. Select the Skybean app, select "console". You will see events logged to the console. In the console, you will see if there are any errors during the firmware.
+*I have trouble installing the firmware or the config with the chrome configurator app.* It takes multiple tries sometimes. I had the best luck when selecting the COM port manually (not plugging the skybean in and out). Open the app, and open new chrome tab afterwards. Type "chrome://inspect" into the adress bar. Select "Apps" from the menu left. Select the Skybean app, select "console". You will see events logged to the console. In the console, you will see if there are any errors during the firmware update.
 
 *I still can't install the config on SkyBean, no matter what.* In [this firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.2.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
 
 *I edited the config file and now my tones and durations are all messed up.* Don't use values greater than 2100 in the config file, the device can't handle it. (They lead to integer overflow.)
 
-*Bibip has some shortcomings.* Bibip is never quiet. The duration of the gap in between the two beeps is not configurable. 
+*Bibip has some shortcomings.* The duration of the gap in between the two beeps is not configurable. 
 
 Please, do open issues if you find bugs or are missing something. 
 
