@@ -29,7 +29,9 @@ Troubleshooting
 
 *The links to firmware and config above lead to some weird text.* Use "Save link as..." option to save the firmware and config files. 
 
-*To load bibip configuration* launch the SkyBean configurator app, Click on "Load config from file" and select the config file you downloaded. Note that you can change it in a text editor or with the app. Then "Save config to SkyBean".   
+*To load bibip configuration* launch the SkyBean configurator app, Click on "Load config from file" and select the config file you downloaded. Note that you can change the config with the configurator app and then "Save config to SkyBean".   
+
+*I edited the config file in a text editor and now the sounds are all messed up.* Don't use values greater than 2100 as tone length and pause duration, the device can't handle it. (They lead to integer overflow.)
 
 *To install the bibip firmware* select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.3.ebin firmware file you downloaded. (Don't change the file in any way)
 
@@ -37,9 +39,7 @@ Troubleshooting
 
 *I still can't install the config on SkyBean, no matter what.* In [this firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.3.hardcoded.ebin), Bibip sounds are hardcoded, you don't need any config
 
-*I edited the config file and now my tones and durations are all messed up.* Don't use values greater than 2100 in the config file, the device can't handle it. (They lead to integer overflow.)
-
-*Bibip has some shortcomings.* The duration of the gap in between the two beeps is not configurable. 
+*Bibip has some shortcomings.* The duration of the gap in between the two beeps is not configurable. Bibip keeps beeping all the time.
 
 Please, do open issues if you find bugs or are missing something. 
 
