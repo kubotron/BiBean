@@ -276,8 +276,8 @@ ISR(timerC5_overflow_interrupt)
 			#ifdef TEST_SEQUENCE
 
 				printf("\r\nBibip TEST");
-				printf("\r\nlift threshold: %0.2f m/s", ram_sink_begin);
-				printf("\r\nsink threshold: %0.2f m/s", ram_lift_begin);
+				printf("\r\nlift threshold: %0.2f m/s", ram_lift_begin);
+				printf("\r\nsink threshold: %0.2f m/s", ram_sink_begin);
 				printf("\r\nclimb: %0.2f m/s", next_climb);
 				printf("\r\ntone 1: %u Hz", next_bibip_freq1);
 				printf("\r\ntone 2: %u Hz", next_bibip_freq2);
