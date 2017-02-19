@@ -18,7 +18,7 @@ Bibip has a distinct sound sequence in each case:
 * In sinking air (under the configured sink threshold), the melody is falling: "bip-boo"
 * If buoyant (in between your lift and sink threshold), Bibip makes a flat "bip-bip"
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/7PRNan8xcpo" frameborder="0" allowfullscreen></iframe> 
+[![demo video of bibip test](https://img.youtube.com/vi/7PRNan8xcpo/0.jpg)](https://www.youtube.com/watch?v=7PRNan8xcpo)
 
 Bibip is never quiet. The frequencies are based on black piano keys. Integration interval is 0.7sec. Play with the config, fly safe, stay tuned. I'm moving on to the SkyDrop platform for next steps with Bibip now. 
 Kubo (bibip@kubokubo.net) 
