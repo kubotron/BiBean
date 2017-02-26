@@ -1,5 +1,5 @@
 #include "buzzer.h"
-//#define TEST_SEQUENCE
+#define TEST_SEQUENCE
 //#define HARDCODED_TONES
 
 
