@@ -2,7 +2,7 @@ Experiment with the "Bibip" vario sound on [SkyBean](https://github.com/fhorinek
 
 Installation
 ============
-Download the Bibip [firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.3.ebin) and the [config](https://raw.githubusercontent.com/kubotron/BiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
+Download the Bibip [firmware](https://raw.githubusercontent.com/kubotron/BiBean/master/bibip_0.1.4.ebin) and the [config](https://raw.githubusercontent.com/kubotron/BiBean/master/config-black-keys.sbc) that goes with it. Install the firmware and the config with the [SkyBean configurator chrome app](https://chrome.google.com/webstore/detail/skybean-configurator/njolekdacakglgbnpmeldongebgldnhd?hl=en). 
 
 What is Bibip?
 ==============
@@ -34,7 +34,7 @@ Troubleshooting
 
 *I edited the config file in a text editor and now the sounds are all messed up.* Don't use values greater than 2100 as tone length and pause duration, the device can't handle it. (They lead to integer overflow.)
 
-*To install the bibip firmware* select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.3.ebin firmware file you downloaded. (Don't change the file in any way)
+*To install the bibip firmware* select "Update Skybean Firmware", in next dialog select "Load firmware from file" link at the bottom. Pick the bibip_0.1.4.ebin firmware file you downloaded. (Don't change the file in any way)
 
 *I have trouble installing the firmware or the config with the chrome configurator app.* It takes multiple tries sometimes. I had the best luck when selecting the COM port manually (not plugging the skybean in and out). Open the app, and open new chrome tab afterwards. Type "chrome://inspect" into the adress bar. Select "Apps" from the menu left. Select the Skybean app, select "console". You will see events logged to the console. In the console, you will see if there are any errors during the firmware update.
 
