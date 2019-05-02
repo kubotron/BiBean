@@ -1,4 +1,4 @@
-Experiment with the "Bibip" vario sound on [SkyBean](https://github.com/fhorinek/SkyBean)
+Experiment with the "Bibip" vario sound on [SkyBean] 1st generation (https://github.com/fhorinek/SkyBean)
 
 Installation
 ============
