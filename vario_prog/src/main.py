@@ -68,7 +68,7 @@ class StaxProg():
 
         print "done"
         print "Bootloader version %d" % ver
-        self.handle.setTimeout(2)
+        self.handle.timeout=2
         
     def erase(self):
         print "Erasing application...",
